@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46cf7876773b5e647bab46c93480af62, type: 3}
+  m_Name: 12_lv_Data
+  m_EditorClassIdentifier: 
+  levelID: 121
+  levelName: Meet New One
+  killAmount: 10
+  tierUse: 1
+  enemies:
+  - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+  - {fileID: 11400000, guid: b41b6f89a9b5b964f97265ee37c08c6d, type: 2}
+  unlockedlevelID: 83000000
+  dropData:
+  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 100
+    minDrop: 10
+    maxDrop: 25

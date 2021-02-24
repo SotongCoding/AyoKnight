@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46cf7876773b5e647bab46c93480af62, type: 3}
+  m_Name: 15_lv_Data(H)
+  m_EditorClassIdentifier: 
+  levelID: 152
+  levelName: Meet The Champion
+  killAmount: 1
+  tierUse: 3
+  enemies:
+  - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
+  unlockedlevelID: 70000000
+  dropData:
+  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
+    dropChance: 100
+    minDrop: 75
+    maxDrop: 100
+  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
+    dropChance: 30
+    minDrop: 150
+    maxDrop: 200
+  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 75
+    minDrop: 20
+    maxDrop: 55
+  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 20
+    minDrop: 50
+    maxDrop: 150

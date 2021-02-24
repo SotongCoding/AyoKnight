@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6460672145956c942aa251a65814c6ad, type: 3}
+  m_Name: woodArmor
+  m_EditorClassIdentifier: 
+  baseItemID: AR1_1_2
+  itemName: Wood Armor
+  itemDescription: Armor for beginer.
+  itemPath: wood_armor
+  equipmentID: 2
+  type: 1
+  attack: 0
+  defense: 1
+  health: 0
+  durability: 5
+  unlockCost: 0
+  fullRepairCost: 100
+  left: 0
+  right: 0
+  diagonalRight: 1
+  diagonalLeft: 1
+  up: 0
+  down: 0
