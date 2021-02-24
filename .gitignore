@@ -60,6 +60,7 @@ crashlytics-build.properties
 
 #ThisProjCustom
 *.zip
+*.xlsx
 WebResult
 
 
