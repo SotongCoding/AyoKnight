@@ -45,9 +45,9 @@ public class UICon_InvItem : MonoBehaviour {
         repair_btn.interactable = equipment.cur_durability < equipment.data.durability;
         equip_btn.interactable = !equipment.isEquip;
 
-        float fill_durability = ((float) equipment.cur_durability / (float)equipment.data.durability);
+        float fill_durability = ((float) equipment.cur_durability / (float) equipment.data.durability);
         durability_img.fillAmount = fill_durability;
-        Debug.Log(fill_durability);
+        Debug.Log (fill_durability);
         durability_img.color = durability_color.Evaluate (fill_durability);
 
         int cost = (int) (equipment.data.fullRepairCost * fill_durability);
@@ -68,14 +68,19 @@ public class UICon_InvItem : MonoBehaviour {
     //Btn Action
     public void Unlock () {
         if (DB_Resources.GetItem (1).quantity >= unlockCost) {
+            DB_Resources.GetItem (1).quantity -= unlockCost;
             equipment.UnlockItem ();
             Initial ();
+
+            ResourcesUIControl.SetResoucesValue ();
         }
     }
 
     public void Repair () {
         if (DB_Resources.GetItem (2).quantity >= repairCost) {
+            DB_Resources.GetItem (2).quantity -= repairCost;
             equipment.Repair ();
+            ResourcesUIControl.SetResoucesValue ();
         }
 
     }

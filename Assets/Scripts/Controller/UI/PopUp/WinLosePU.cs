@@ -30,6 +30,7 @@ public class WinLosePU : PopUpAction_Base {
         SetEneble (false);
         SceneLoader.LoadScene (1);
         ClearItem();
+        ResourcesUIControl.TurnUION(true);
     }
     void RetryEvent () {
         SetEneble (false);

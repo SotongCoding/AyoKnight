@@ -7,14 +7,14 @@ public class DB_Resources : MonoBehaviour {
 
     public static DB_Resources _instance;
 
-   const string path = "UI/Inventory/ResourcesItems/";
+    const string path = "UI/Inventory/ResourcesItems/";
     [SerializeField] List<ResItemInven> inventory = new List<ResItemInven> ();
     public static Sprite GetItemSrpite (string itemNamePaths) {
         return Resources.Load<Sprite> (path + itemNamePaths);
     }
 
     public static void ModifQuantity (ResourcesItem item, int amount) {
-        int index = _instance.inventory.FindIndex (x => x.Equals (item));
+        int index = _instance.inventory.FindIndex (x => x.id == item.itemID);
         if (index < 0) {
             _instance.inventory.Add (new ResItemInven () {
                 id = item.itemID,
@@ -23,8 +23,8 @@ public class DB_Resources : MonoBehaviour {
         }
         else _instance.inventory[index].quantity += amount;
     }
-    public static ResItemInven GetItem(int itemID){
-         return _instance.inventory.Find (x => x.id == itemID);
+    public static ResItemInven GetItem (int itemID) {
+        return _instance.inventory.Find (x => x.id == itemID);
     }
     // Start is called before the first frame update
     private void Awake () {

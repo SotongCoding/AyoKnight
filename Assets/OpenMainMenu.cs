@@ -7,5 +7,6 @@ public class OpenMainMenu : MonoBehaviour {
     public void Open () {
         SceneLoader.LoadScene (1);
         startMenu.SetActive (false);
+        ResourcesUIControl.TurnUION (true);
     }
 }
