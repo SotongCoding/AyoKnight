@@ -1,9 +1,9 @@
 {
-    "m_SelectedDeviceId": "065c8d8b00eb8baf",
+    "m_SelectedDeviceId": "32cba616",
     "m_SelectedPackage": {
-        "deviceId": "065c8d8b00eb8baf",
+        "deviceId": "32cba616",
         "name": "com.SugengTester.AyoKnight",
-        "processId": 10507,
+        "processId": 12174,
         "exited": false
     },
     "m_SelectedPriority": 0,
@@ -120,6 +120,66 @@
             "deviceId": "065c8d8b00eb8baf",
             "name": "com.SugengTester.AyoKnight",
             "processId": 10507,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.android.chrome",
+            "processId": 27844,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 31575,
+            "exited": true
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 3156,
+            "exited": true
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 7412,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 8105,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 8421,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 10036,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 10372,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 11463,
+            "exited": false
+        },
+        {
+            "deviceId": "32cba616",
+            "name": "com.SugengTester.AyoKnight",
+            "processId": 12174,
             "exited": false
         }
     ],

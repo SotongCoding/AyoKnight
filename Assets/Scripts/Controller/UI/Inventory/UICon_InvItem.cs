@@ -47,7 +47,6 @@ public class UICon_InvItem : MonoBehaviour {
 
         float fill_durability = ((float) equipment.cur_durability / (float) equipment.data.durability);
         durability_img.fillAmount = fill_durability;
-        Debug.Log (fill_durability);
         durability_img.color = durability_color.Evaluate (fill_durability);
 
         int cost = (int) (equipment.data.fullRepairCost * fill_durability);
