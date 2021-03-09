@@ -30,7 +30,7 @@ public class NoteControl : MonoBehaviour {
     public void setNoteAmout (int noteAmount) {
         this.noteAmount = noteAmount;
     }
-    public void setNoteCode (int[] noteCode_weap,int[] noteCode_armor) {
+    public void setNoteCode (int[] noteCode_weap, int[] noteCode_armor) {
         noteGenerateCode_weap = noteCode_weap;
         noteGenerateCode_armor = noteCode_armor;
     }
@@ -45,7 +45,8 @@ public class NoteControl : MonoBehaviour {
                 note.InitialNote (noteGenerateCode_weap[ran_note]);
                 generatedNote.Add (note);
             }
-        } else {
+        }
+        else {
             for (int i = 0; i < amount; i++) {
                 int ran_note = Random.Range (0, noteGenerateCode_armor.Length);
                 NoteChecker note = Instantiate (notePerf, notePlace);
@@ -57,7 +58,7 @@ public class NoteControl : MonoBehaviour {
     }
 
     public void CheckNote (int sendCode) {
-        if (cur_IndexNote < noteAmount) {
+        if (cur_IndexNote < noteAmount && cur_IndexNote > -1) {
             generatedNote[cur_IndexNote].Check (sendCode, out bool isCorrect);
             cur_IndexNote++;
             if (isCorrect) {

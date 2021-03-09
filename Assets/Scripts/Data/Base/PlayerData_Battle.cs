@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerData_Battle : MonoBehaviour {
-    int weaponID = -1;
+    [SerializeField]int weaponID = -1;
     [SerializeField] WeaponBase weapon;
     EquipmentInv weaponData;
 
-    int armorID = -1;
+    [SerializeField]int armorID = -1;
     [SerializeField] ArmorBase armor;
     EquipmentInv armorData;
 
-    int accID = -1;
+    [SerializeField] int accID = -1;
     [SerializeField] AccecoriesBase accecories;
     EquipmentInv accData;
 

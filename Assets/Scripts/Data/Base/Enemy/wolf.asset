@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 032dc87359c3b62448de4babcb15f4a6, type: 3}
-  m_Name: goblinChamp_Data
+  m_Name: wolf
   m_EditorClassIdentifier: 
-  health: 50
-  attack: 2
-  turnAmount: 2
-  noteAmount: 5
+  health: 8
+  attack: 1
+  turnAmount: 1
+  noteAmount: 4
+  picture: {fileID: 21300000, guid: 4ce0c1a5710e05c43863e96b4ee954f0, type: 3}

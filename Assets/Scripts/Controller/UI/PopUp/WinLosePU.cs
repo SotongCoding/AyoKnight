@@ -10,7 +10,6 @@ public class WinLosePU : PopUpAction_Base {
 
     public void GenerateItem (List<LootDropData> dropsItem) {
         foreach (var item in dropsItem) {
-            Debug.Log("Generated");
             UI_DropItemControl obj = Instantiate (itemTemplate, lootPlace);
             obj.Initial (item);
         }

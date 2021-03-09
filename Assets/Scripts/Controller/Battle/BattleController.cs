@@ -3,10 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class BattleController : MonoBehaviour {
-    public event Action<Phase> OnGetPhase;
     public event Action OnEnemyDeath;
-    public event Action<bool> onBattleDone;
     public event Action OnBattleStart;
+
+    public event Action<Phase> OnGetPhase;
+
+    public event Action<bool> onBattleDone;
+    public event Action<bool> OnGetDamage;
 
     public static BattleController _instance;
     public static bool isStartBattle;
@@ -43,16 +46,23 @@ public class BattleController : MonoBehaviour {
 
         onBattleDone += BattleEnd;
         OnEnemyDeath += SetNewTurn;
-    }
 
+    }
     private void Start () {
         isStartBattle = false;
         isBattlePause = true;
         Invoke ("CallOnBattleStart", 3);
     }
+    private void OnDestroy () {
+        OnGetPhase = null;
+        OnBattleStart = OnEnemyDeath = null;
+        OnGetDamage = onBattleDone = null;
+    }
+
     public void CallOnGetPhase () {
-        if (OnGetPhase != null)
+        if (OnGetPhase != null) {
             OnGetPhase (getPhase ());
+        }
     }
     public void CallOnEnemyDeath () {
         if (OnEnemyDeath != null) {
@@ -65,8 +75,14 @@ public class BattleController : MonoBehaviour {
     public void CallOnBattleStart () {
         if (OnBattleStart != null) OnBattleStart ();
     }
+    public void CallOnGetDamage (bool isPlayer) {
+        if (OnGetDamage != null) {
+            OnGetDamage (isPlayer);
 
-    #region Turn Oerder
+            uiControl.UpdateStatUI ();
+        }
+    }
+    #region Turn Order
 
     //0 = player, 1 = enemy
     void DecideTurn () {
@@ -139,9 +155,8 @@ public class BattleController : MonoBehaviour {
 
             PopUpControler.CallPopUp ("winlose", "WIN", "", "");
 
-            foreach (int levelID in LevelLoader.getLevelData().unlockedlevelID)
-            {
-                DB_LevelData.GetLevel(levelID).Unlock();
+            foreach (int levelID in LevelLoader.getLevelData ().unlockedlevelID) {
+                DB_LevelData.GetLevel (levelID).Unlock ();
             }
 
         }
@@ -149,7 +164,7 @@ public class BattleController : MonoBehaviour {
             PopUpControler.CallPopUp ("winlose", "LOSE", "", "");
         }
 
-        FindObjectOfType<PlayerData_Battle>().ReduceItemDurability(isWin);
+        FindObjectOfType<PlayerData_Battle> ().ReduceItemDurability (isWin);
 
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPaused = true;

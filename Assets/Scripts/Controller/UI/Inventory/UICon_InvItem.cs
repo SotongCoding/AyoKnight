@@ -49,12 +49,12 @@ public class UICon_InvItem : MonoBehaviour {
         durability_img.fillAmount = fill_durability;
         durability_img.color = durability_color.Evaluate (fill_durability);
 
-        int cost = (int) (equipment.data.fullRepairCost * fill_durability);
+        int cost = (int) equipment.data.fullRepairCost - (int)(equipment.data.fullRepairCost * fill_durability);
         if (equipment.cur_durability <= 0) {
             cost = cost * 2;
         }
         repairCost = cost;
-        repairCost_text.text = repairCost.ToString ();
+        repairCost_text.text = "-"+repairCost.ToString ();
 
         unlockCost = equipment.data.unlockCost;
         unlockCost_text.text = unlockCost.ToString ();
@@ -79,6 +79,8 @@ public class UICon_InvItem : MonoBehaviour {
         if (DB_Resources.GetItem (2).quantity >= repairCost) {
             DB_Resources.GetItem (2).quantity -= repairCost;
             equipment.Repair ();
+            Initial ();
+
             ResourcesUIControl.SetResoucesValue ();
         }
 

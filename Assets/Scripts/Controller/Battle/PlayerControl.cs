@@ -19,7 +19,7 @@ public class PlayerControl : MonoBehaviour {
     }
     public void CallCode (int code) {
         noteControl.CheckNote (code);
-    } 
+    }
     public void Submit (bool isRunOut) {
         BattleData_Enemy enemy = BattleController.getEnemyData ();
         BattleData_Player player = BattleController.getPlayerData ();
@@ -27,21 +27,18 @@ public class PlayerControl : MonoBehaviour {
 
         if (curentPhase == Phase.player) {
             if (!isRunOut) enemy.TakeDamage (player.CalculateDamage (correctNote));
-            else player.TakeDamage (enemy.CalculateDamage ((int) (player.defense_fix * 0.5f), correctNote));
         }
         else {
             if (!isRunOut) player.TakeDamage (enemy.CalculateDamage (player.defense_fix, correctNote));
-            else player.TakeDamage (enemy.CalculateDamage ((int) (player.defense_fix), correctNote));
+            else player.TakeDamage (enemy.CalculateDamage (0, player.defense_fix));
         }
-
-        Debug.Log ("Play Anim");
 
         StartCoroutine (GetNextPhase ());
         BattleController.isBattlePause = true;
     }
 
     IEnumerator GetNextPhase () {
-        yield return new WaitForSeconds (1); // animation duration
+        yield return new WaitForSeconds (1.3f); // animation duration
         BattleController._instance.CallOnGetPhase ();
         BattleController.isBattlePause = false;
     }

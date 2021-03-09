@@ -1780,20 +1780,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Rytm Game v0 . 5
+  m_Text: 'Rytm Game v0 . 51
 
 
 
     + Pakai equip minimal senjata dan armor
 
     +
-    Gambar masih terbatas jadi gambar nya sama semua
+    Add Gambar EQ dan momon
 
-    +  Belum ada Save jadi
-    kalau keluar game ya ulang lagi
+    +  Belum ada Save jadi kalau keluar game ya ulang
+    lagi
 
-    + Sesuaikan yang muncul dengan tombol yang
-    ada'
+    + Sesuaikan yang muncul dengan tombol yang ada'
 --- !u!222 &1006474486
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3378,7 +3377,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0.00012207031, y: -0.000030517578}
   m_SizeDelta: {x: -6.6152344, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1621648988
@@ -3978,7 +3977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5, g: 0.4787736, b: 0.4787736, a: 1}
+  m_Color: {r: 0.16981131, g: 0.16260234, b: 0.16260234, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:

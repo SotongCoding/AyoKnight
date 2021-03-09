@@ -5,12 +5,6 @@ using UnityEngine;
 
 [System.Serializable]
 public class BattleData_Player {
-    public event Action onTakeDamage;
-
-    void CallOnTakeDamage () {
-        if (onTakeDamage != null) onTakeDamage ();
-    }
-
     [SerializeField] int health { get; }
 
     [SerializeField] int attack { get; }
@@ -37,7 +31,9 @@ public class BattleData_Player {
 
     public void TakeDamage (int comeDamage) {
         heatlth_fix -= comeDamage;
-        CallOnTakeDamage ();
+        if (comeDamage > 0) {
+            BattleController._instance.CallOnGetDamage (true);
+        }
 
         if (heatlth_fix <= 0) { BattleController._instance.CallOnBattleDone (false); }
     }

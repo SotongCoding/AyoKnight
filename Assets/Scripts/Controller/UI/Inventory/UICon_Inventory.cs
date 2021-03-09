@@ -13,9 +13,6 @@ public class UICon_Inventory : MonoBehaviour {
     public Text atkVal, defVal, hpVal;
     List<UICon_InvItem> itemsView = new List<UICon_InvItem> ();
 
-    public Text redMatAmount;
-    public Text blueMatAmount;
-
     private void Awake () {
         itemsView = FindObjectsOfType<UICon_InvItem> ().ToList ();
         player = FindObjectOfType<PlayerData_Battle> ();
