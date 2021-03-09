@@ -198,8 +198,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8b6ad66c7da2f4e9d41d1855002543, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponID: -1
   weapon: {fileID: 0}
+  armorID: -1
   armor: {fileID: 0}
+  accID: -1
   accecories: {fileID: 0}
 --- !u!1 &126436465
 GameObject:
@@ -3216,6 +3219,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1556678934}
   - component: {fileID: 1556678935}
+  - component: {fileID: 1556678936}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -3247,6 +3251,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edc1bda913327ae4f8db3fbf0172a043, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1556678936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1556678933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a07fb81fd1ed5fd4f977ed0c18e0cf0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1561908231
@@ -3669,26 +3685,32 @@ MonoBehaviour:
   inventory:
   - id: 1
     data: {fileID: 11400000, guid: a525ee0b7bef89d40b8ca05219519f3e, type: 2}
+    cur_durability: 0
     isAvaiable: 0
     isEquip: 0
   - id: 2
     data: {fileID: 11400000, guid: 6448fe0d9633c8447b36c8c8ef7030f4, type: 2}
+    cur_durability: 0
     isAvaiable: 0
     isEquip: 0
   - id: 3
     data: {fileID: 11400000, guid: 5ad84cba63b899147a4b497947ae4dc4, type: 2}
+    cur_durability: 0
     isAvaiable: 0
     isEquip: 0
   - id: 4
     data: {fileID: 11400000, guid: c7222278481034d48a94f7103faeb379, type: 2}
+    cur_durability: 0
     isAvaiable: 0
     isEquip: 0
   - id: 5
     data: {fileID: 11400000, guid: c576f1651b463af4cbf73739f198031d, type: 2}
+    cur_durability: 0
     isAvaiable: 0
     isEquip: 0
   - id: 6
     data: {fileID: 11400000, guid: f32dd637055d71c4593c75f8cc13ea0f, type: 2}
+    cur_durability: 0
     isAvaiable: 0
     isEquip: 0
 --- !u!1 &1938738033

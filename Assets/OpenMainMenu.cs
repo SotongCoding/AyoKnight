@@ -8,5 +8,7 @@ public class OpenMainMenu : MonoBehaviour {
         SceneLoader.LoadScene (1);
         startMenu.SetActive (false);
         ResourcesUIControl.TurnUION (true);
+
+        DBSaveControl.LoadData();
     }
 }

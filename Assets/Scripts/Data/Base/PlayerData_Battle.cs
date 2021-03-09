@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerData_Battle : MonoBehaviour {
-    [SerializeField]int weaponID = -1;
+    [SerializeField] int weaponID = -1;
     [SerializeField] WeaponBase weapon;
     EquipmentInv weaponData;
 
-    [SerializeField]int armorID = -1;
+    [SerializeField] int armorID = -1;
     [SerializeField] ArmorBase armor;
     EquipmentInv armorData;
 
@@ -89,13 +89,14 @@ public class PlayerData_Battle : MonoBehaviour {
             accData = InvData;
         }
     }
+
     public BattleData_Player GetPlayerData () {
         return CountAllStat ();
     }
 
     public void ReduceItemDurability (bool isWin) {
-        if(weaponData!=null) weaponData.ChangeDurability(isWin);
-        if(accData!=null)accData.ChangeDurability (isWin);
-        if(armorData!=null)armorData.ChangeDurability (isWin);
+        if (weaponData != null) weaponData.ChangeDurability (isWin);
+        if (accData != null) accData.ChangeDurability (isWin);
+        if (armorData != null) armorData.ChangeDurability (isWin);
     }
 }

@@ -38,22 +38,54 @@ public class DB_EquipmentInventory : MonoBehaviour {
     public static List<EquipmentInv> GetAllItem () {
         return _instance.inventory;
     }
-    class DB_EqInvent_SaveData {
-        public int cur_number;
-        public List<EquipmentInv> inventory;
 
-        public DB_EqInvent_SaveData (int cur_number, List<EquipmentInv> inventory) {
-            this.cur_number = cur_number;
-            this.inventory = inventory;
+    #region SaveLoad
+    static string savePath { get => Application.dataPath + "/SaveData/"; }
+    static string fileName { get => "equipData.akdat"; }
+
+    public static void SaveEquipData () {
+        List<SaveData_DBInv> saved = new List<SaveData_DBInv> ();
+        foreach (var item in _instance.inventory) {
+            saved.Add (new SaveData_DBInv (item));
         }
+        SaveLoadManager.SaveData<SaveData_DBInv> (saved, savePath, fileName);
     }
+    public static void LoadEquipData () {
+        SaveLoadManager.LoadData<SaveData_DBInv> (savePath, fileName, out List<SaveData_DBInv> loadedData);
+        if (loadedData.Count > 0) {
+            PlayerData_Battle player = FindObjectOfType<PlayerData_Battle> ();
+
+            foreach (var item in loadedData) {
+                int index = _instance.inventory.IndexOf (GetItem (item.id));
+
+                _instance.inventory[index].cur_durability = item.cur_durability;
+                _instance.inventory[index].isAvaiable = item.isAvaiable;
+                _instance.inventory[index].isEquip = item.isAvaiable;
+
+                if (item.isEquip) {
+                    if (_instance.inventory[index].data.GetType () == typeof (WeaponBase)) {
+                        player.SwitchWeapon (_instance.inventory[index], out int lastID, out bool success);
+                    }
+                    else if (_instance.inventory[index].data.GetType () == typeof (ArmorBase)) {
+                        player.SwitchArmor (_instance.inventory[index], out int lastID, out bool success);
+                    }
+                    else if (_instance.inventory[index].data.GetType () == typeof (AccecoriesBase)) {
+                        player.SwitchAcc (_instance.inventory[index], out int lastID, out bool success);
+                    }
+                }
+
+            }
+        }
+
+    }
+    #endregion
 }
 
 [Serializable]
 public class EquipmentInv : IEquatable<EquipmentInv> {
     public int id;
     public EquipmentData data;
-    public int cur_durability{ private set; get; }
+    public int cur_durability;
     public bool isAvaiable;
     public bool isEquip;
 
@@ -85,5 +117,22 @@ public class EquipmentInv : IEquatable<EquipmentInv> {
 
     public override int GetHashCode () {
         return base.GetHashCode ();
+    }
+}
+
+[Serializable]
+public class SaveData_DBInv {
+    public int id;
+    public int cur_durability;
+    public bool isAvaiable;
+    public bool isEquip;
+
+    public SaveData_DBInv () { }
+
+    public SaveData_DBInv (EquipmentInv invData) {
+        this.id = invData.id;
+        this.cur_durability = invData.cur_durability;
+        this.isAvaiable = invData.isAvaiable;
+        this.isEquip = invData.isEquip;
     }
 }

@@ -35,6 +35,29 @@ public class DB_Resources : MonoBehaviour {
             Destroy (gameObject);
         }
     }
+
+    #region SaveLoad
+    static string savePath { get => Application.dataPath + "/SaveData/"; }
+    static string fileName { get => "resourcesData.akdat"; }
+
+    public static void SaveResoucesData () {
+        List<SaveData_DBRes> saved = new List<SaveData_DBRes> ();
+        foreach (var item in _instance.inventory) {
+            saved.Add (new SaveData_DBRes (item));
+        }
+        SaveLoadManager.SaveData<SaveData_DBRes> (saved, savePath, fileName);
+    }
+    public static void LoadResourcesData () {
+        SaveLoadManager.LoadData<SaveData_DBRes> (savePath, fileName, out List<SaveData_DBRes> loadedData);
+        if (loadedData.Count > 0) {
+            foreach (var item in loadedData) {
+                int index = _instance.inventory.IndexOf (GetItem (item.id));
+                _instance.inventory[index].quantity = item.quantity;
+            }
+        }
+       ResourcesUIControl.SetResoucesValue();
+    }
+    #endregion
 }
 
 [Serializable]
@@ -60,5 +83,18 @@ public class ResItemInven {
 
     public override string ToString () {
         return id + " : " + quantity;
+    }
+}
+
+[Serializable]
+public class SaveData_DBRes {
+    public int id;
+    public int quantity;
+
+    public SaveData_DBRes () { }
+
+    public SaveData_DBRes (ResItemInven invData) {
+        this.id = invData.id;
+        this.quantity = invData.quantity;
     }
 }

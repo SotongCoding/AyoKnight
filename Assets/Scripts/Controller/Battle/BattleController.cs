@@ -166,6 +166,8 @@ public class BattleController : MonoBehaviour {
 
         FindObjectOfType<PlayerData_Battle> ().ReduceItemDurability (isWin);
 
+        DB_LevelData.SaveLevelData ();
+
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPaused = true;
 #elif UNITY_ANDROID

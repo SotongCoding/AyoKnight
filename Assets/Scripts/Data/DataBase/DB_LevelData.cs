@@ -32,6 +32,19 @@ public class DB_LevelData : MonoBehaviour {
 
         return null;
     }
+
+    #region SaveLoad
+    static string savePath { get => Application.dataPath + "/SaveData/"; }
+    static string fileName { get => "levelData.akdat"; }
+
+    public static void SaveLevelData () {
+        SaveLoadManager.SaveData<LevelStatus> (_instance.levels, savePath, fileName);
+    }
+    public static void LoadLevelData () {
+        SaveLoadManager.LoadData<LevelStatus> (savePath, fileName, out List<LevelStatus> loadedData);
+        _instance.levels = loadedData;
+    }
+    #endregion
 }
 
 [Serializable]
