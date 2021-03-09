@@ -20,7 +20,7 @@ public class DBSaveControl : MonoBehaviour {
     }
     public static void LoadData () {
         DB_EquipmentInventory.LoadEquipData ();
-        // DB_LevelData.LoadLevelData ();
+        DB_LevelData.LoadLevelData ();
         DB_Resources.LoadResourcesData ();
     }
 }

@@ -98,5 +98,7 @@ public class PlayerData_Battle : MonoBehaviour {
         if (weaponData != null) weaponData.ChangeDurability (isWin);
         if (accData != null) accData.ChangeDurability (isWin);
         if (armorData != null) armorData.ChangeDurability (isWin);
+
+        DB_EquipmentInventory.SaveEquipData();
     }
 }

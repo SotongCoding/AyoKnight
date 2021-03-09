@@ -19,11 +19,12 @@ public class LootDropControler : MonoBehaviour {
         if (isWin) {
             FindObjectOfType<WinLosePU> ().GenerateItem (getItem);
             foreach (var item in getItem) {
-                    DB_Resources.ModifQuantity ((ResourcesItem) item.GetData (), item.GetFixDrop ()); 
+                DB_Resources.ModifQuantity ((ResourcesItem) item.GetData (), item.GetFixDrop ());
             }
         }
         getItem.Clear ();
         dropItems.Clear ();
+        DB_Resources.SaveResoucesData ();
     }
     void CalculateDrop () {
         foreach (var item in dropItems) {

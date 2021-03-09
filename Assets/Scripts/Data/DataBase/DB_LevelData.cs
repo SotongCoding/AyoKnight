@@ -38,11 +38,22 @@ public class DB_LevelData : MonoBehaviour {
     static string fileName { get => "levelData.akdat"; }
 
     public static void SaveLevelData () {
-        SaveLoadManager.SaveData<LevelStatus> (_instance.levels, savePath, fileName);
+        List<SaveData_DBLevel> saved = new List<SaveData_DBLevel> ();
+        foreach (var item in _instance.levels) {
+            saved.Add (new SaveData_DBLevel (item));
+        }
+        SaveLoadManager.SaveData<SaveData_DBLevel> (saved, savePath, fileName);
     }
     public static void LoadLevelData () {
-        SaveLoadManager.LoadData<LevelStatus> (savePath, fileName, out List<LevelStatus> loadedData);
-        _instance.levels = loadedData;
+        SaveLoadManager.LoadData<SaveData_DBLevel> (savePath, fileName, out List<SaveData_DBLevel> loadedData);
+        if (loadedData.Count > 0) {
+            foreach (var item in loadedData) {
+                int index = _instance.levels.IndexOf (GetLevel (item.id));
+                if (item.isOpen) {
+                    _instance.levels[index].Unlock ();
+                }
+            }
+        }
     }
     #endregion
 }
@@ -67,5 +78,18 @@ public class LevelStatus {
     /// <returns></returns>
     public void Unlock () {
         isOpen = true;
+    }
+}
+
+[Serializable]
+public class SaveData_DBLevel {
+    public int id;
+    public bool isOpen;
+
+    public SaveData_DBLevel () { }
+
+    public SaveData_DBLevel (LevelStatus data) {
+        this.id = data.GetID ();
+        this.isOpen = data.IsOpen ();
     }
 }
