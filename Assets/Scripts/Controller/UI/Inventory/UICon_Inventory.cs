@@ -30,37 +30,37 @@ public class UICon_Inventory : MonoBehaviour {
         int[] eqStatus = player.GetEqStatus ();
 
         if (eqStatus[0] != -1) equipedWeapon.sprite = DB_EquipmentInventory.GetItemSrpite (
-            DB_EquipmentInventory.GetItem (eqStatus[0]).data.itemPath
+            DB_EquipmentInventory.GetItem (eqStatus[0]).GetBaseData().itemPath
         );
         if (eqStatus[1] != -1) equipedArmor.sprite = DB_EquipmentInventory.GetItemSrpite (
-            DB_EquipmentInventory.GetItem (eqStatus[1]).data.itemPath
+            DB_EquipmentInventory.GetItem (eqStatus[1]).GetBaseData().itemPath
         );
         if (eqStatus[2] != -1) equipedAcc.sprite = DB_EquipmentInventory.GetItemSrpite (
-            DB_EquipmentInventory.GetItem (eqStatus[2]).data.itemPath
+            DB_EquipmentInventory.GetItem (eqStatus[2]).GetBaseData().itemPath
         );
     }
 
     public void SwitchEquip (EquipmentInv data) {
         int lastID = -1;
 
-        if (data.data.GetType () == typeof (WeaponBase)) {
+        if (data.GetEquipBaseType() == typeof (WeaponBase)) {
             player.SwitchWeapon (data, out int lasItemID, out bool isSuccess);
             if (isSuccess) {
                 lastID = lasItemID;
-                equipedWeapon.sprite = DB_EquipmentInventory.GetItemSrpite (data.data.itemPath);
+                equipedWeapon.sprite = DB_EquipmentInventory.GetItemSrpite (data.GetBaseData().itemPath);
             }
         }
-        else if (data.data.GetType () == typeof (ArmorBase)) {
+        else if (data.GetEquipBaseType () == typeof (ArmorBase)) {
             player.SwitchArmor (data, out int lasItemID, out bool isSuccess);
             if (isSuccess) {
-                equipedArmor.sprite = DB_EquipmentInventory.GetItemSrpite (data.data.itemPath);
+                equipedArmor.sprite = DB_EquipmentInventory.GetItemSrpite (data.GetBaseData().itemPath);
                 lastID = lasItemID;
             }
         }
-        else if (data.data.GetType () == typeof (AccecoriesBase)) {
+        else if (data.GetEquipBaseType () == typeof (AccecoriesBase)) {
             player.SwitchAcc (data, out int lasItemID, out bool isSuccess);
             if (isSuccess) {
-                equipedAcc.sprite = DB_EquipmentInventory.GetItemSrpite (data.data.itemPath);
+                equipedAcc.sprite = DB_EquipmentInventory.GetItemSrpite (data.GetBaseData().itemPath);
                 lastID = lasItemID;
             }
         }

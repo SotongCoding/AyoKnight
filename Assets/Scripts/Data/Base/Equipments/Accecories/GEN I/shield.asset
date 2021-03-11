@@ -22,5 +22,12 @@ MonoBehaviour:
   defense: 2
   health: 0
   durability: 13
+  status:
+    type: 2
+    attack: 0
+    defense: 2
+    health: 0
+    durability: 13
   unlockCost: 500
   fullRepairCost: 150
+  enchantStatus: []

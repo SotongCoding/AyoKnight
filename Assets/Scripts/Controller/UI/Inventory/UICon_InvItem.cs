@@ -32,31 +32,35 @@ public class UICon_InvItem : MonoBehaviour {
         return equipmentId;
     }
     void Initial () {
-        picture.sprite = DB_EquipmentInventory.GetItemSrpite (equipment.data.itemPath);
-        atk.text = equipment.data.attack.ToString ();
-        def.text = equipment.data.defense.ToString ();
-        hp.text = equipment.data.health.ToString ();
+        EquipmentData baseData = equipment.GetBaseData ();
+        EquipmentStatus status = equipment.GetAllStat ();
+        picture.sprite = DB_EquipmentInventory.GetItemSrpite (baseData.itemPath);
+        atk.text = status.attack.ToString ();
+        def.text = status.defense.ToString ();
+        hp.text = status.health.ToString ();
 
         unlock_btn.gameObject.SetActive (!equipment.isAvaiable);
         equip_btn.gameObject.SetActive (equipment.isAvaiable);
         unlockCost_text.transform.parent.gameObject.SetActive (!equipment.isAvaiable);
         repair_btn.gameObject.SetActive (equipment.isAvaiable);
 
-        repair_btn.interactable = equipment.cur_durability < equipment.data.durability;
+        repair_btn.interactable = equipment.cur_durability < baseData.GetDurability ();
         equip_btn.interactable = !equipment.isEquip;
 
-        float fill_durability = ((float) equipment.cur_durability / (float) equipment.data.durability);
+        float fill_durability = ((float) equipment.cur_durability / (float) baseData.GetDurability ());
         durability_img.fillAmount = fill_durability;
         durability_img.color = durability_color.Evaluate (fill_durability);
 
-        int cost = (int) equipment.data.fullRepairCost - (int) (equipment.data.fullRepairCost * fill_durability);
+        int cost = (int) equipment.GetBaseData ().GetFullRepairCost () -
+            (int) (equipment.GetBaseData ().GetFullRepairCost () * fill_durability);
+
         if (equipment.cur_durability <= 0) {
             cost = cost * 2;
         }
         repairCost = cost;
         repairCost_text.text = "-" + repairCost.ToString ();
 
-        unlockCost = equipment.data.unlockCost;
+        unlockCost = equipment.GetBaseData ().GetUnlockCost();
         unlockCost_text.text = unlockCost.ToString ();
 
     }
@@ -95,7 +99,7 @@ public class UICon_InvItem : MonoBehaviour {
     public void Equip () {
         inventoryEquip.SwitchEquip (equipment);
         Initial ();
-        
+
         DB_EquipmentInventory.SaveEquipData ();
         DB_Resources.SaveResoucesData ();
     }

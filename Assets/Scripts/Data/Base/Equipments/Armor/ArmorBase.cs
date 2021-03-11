@@ -8,7 +8,8 @@ public class ArmorBase : EquipmentData {
     public bool left;
     public bool right, diagonalRight, diagonalLeft;
     [HideInInspector] public bool up, down;
-    public int[] getActiveNote () {
+    
+    public override int[] GetActiveNote () {
         List<int> activeNote = new List<int> ();
 
         if (up) activeNote.Add (1);
