@@ -5,12 +5,6 @@ using UnityEngine;
 
 [Serializable]
 public class DB_EquipmentInventory : MonoBehaviour {
-    const string path = "UI/Inventory/Equipments/";
-
-    public static Sprite GetItemSrpite (string itemNamePaths) {
-        return Resources.Load<Sprite> (path + itemNamePaths);
-    }
-
     public static DB_EquipmentInventory _instance;
     [SerializeField] List<EquipmentInv> inventory = new List<EquipmentInv> ();
 
@@ -39,8 +33,8 @@ public class DB_EquipmentInventory : MonoBehaviour {
         return _instance.inventory;
     }
 
-    public static void AddItem (int id, int amount) {
-        GetItem (id).AddCollectedWeapon (amount);
+    public static void AddItem (EquipmentData data, int amount) {
+        GetItem (data.equipmentID).AddCollectedWeapon (amount);
     }
     #region SaveLoad
     static string savePath { get => Application.dataPath + "/SaveData/"; }
@@ -63,7 +57,9 @@ public class DB_EquipmentInventory : MonoBehaviour {
 
                 _instance.inventory[index].cur_durability = item.cur_durability;
                 _instance.inventory[index].isAvaiable = item.isAvaiable;
-                _instance.inventory[index].isEquip = item.isAvaiable;
+                _instance.inventory[index].isEquip = item.isEquip;
+
+                _instance.inventory[index].SetEnchantData (item.enchantLevel, item.collectedWeapon);
 
                 if (item.isEquip) {
                     if (_instance.inventory[index].GetEquipBaseType () == typeof (WeaponBase)) {
@@ -96,6 +92,10 @@ public class EquipmentInv : IEquatable<EquipmentInv> {
     [SerializeField] int enchantLevel;
     public int GetEnchantLevel () {
         return enchantLevel;
+    }
+    public void SetEnchantData (int level, int collectedWeapon) {
+        enchantLevel = level;
+        this.collectedWeapon = collectedWeapon;
     }
 
     [SerializeField] int collectedWeapon;
@@ -176,6 +176,7 @@ public class SaveData_DBInv {
     public bool isAvaiable;
     public bool isEquip;
     public int enchantLevel;
+    public int collectedWeapon;
 
     public SaveData_DBInv () { }
 
@@ -185,5 +186,6 @@ public class SaveData_DBInv {
         this.isAvaiable = invData.isAvaiable;
         this.isEquip = invData.isEquip;
         this.enchantLevel = invData.GetEnchantLevel ();
+        this.collectedWeapon = invData.GetCollectedWeapon ();
     }
 }

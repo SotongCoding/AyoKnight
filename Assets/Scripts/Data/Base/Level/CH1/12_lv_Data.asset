@@ -22,6 +22,14 @@ MonoBehaviour:
   unlockedlevelID: 83000000
   dropData:
   - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 80
+    minDrop: 15
+    maxDrop: 30
+  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
     dropChance: 100
-    minDrop: 10
-    maxDrop: 25
+    minDrop: 50
+    maxDrop: 100
+  - itemData: {fileID: 11400000, guid: 6448fe0d9633c8447b36c8c8ef7030f4, type: 2}
+    dropChance: 30
+    minDrop: 1
+    maxDrop: 1

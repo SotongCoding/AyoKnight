@@ -34,7 +34,7 @@ public class UICon_InvItem : MonoBehaviour {
     void Initial () {
         EquipmentData baseData = equipment.GetBaseData ();
         EquipmentStatus status = equipment.GetAllStat ();
-        picture.sprite = DB_EquipmentInventory.GetItemSrpite (baseData.itemPath);
+        picture.sprite = baseData.itemPict;
         atk.text = status.attack.ToString ();
         def.text = status.defense.ToString ();
         hp.text = status.health.ToString ();
@@ -69,6 +69,9 @@ public class UICon_InvItem : MonoBehaviour {
     }
 
     //Btn Action
+    public void ShowResources(){
+        
+    }
     public void Unlock () {
         if (DB_Resources.GetItem (1).quantity >= unlockCost) {
             DB_Resources.GetItem (1).quantity -= unlockCost;
@@ -81,7 +84,6 @@ public class UICon_InvItem : MonoBehaviour {
             DB_Resources.SaveResoucesData ();
         }
     }
-
     public void Repair () {
         if (DB_Resources.GetItem (2).quantity >= repairCost) {
             DB_Resources.GetItem (2).quantity -= repairCost;
@@ -95,7 +97,6 @@ public class UICon_InvItem : MonoBehaviour {
         }
 
     }
-
     public void Equip () {
         inventoryEquip.SwitchEquip (equipment);
         Initial ();

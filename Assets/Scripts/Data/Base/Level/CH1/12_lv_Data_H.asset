@@ -10,17 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46cf7876773b5e647bab46c93480af62, type: 3}
-  m_Name: 11_lv_Data(H)
+  m_Name: 12_lv_Data_H
   m_EditorClassIdentifier: 
-  levelID: 112
-  levelName: First Depature
+  levelID: 122
+  levelName: Meet New One (HARD)
   killAmount: 10
   tierUse: 3
   enemies:
   - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
-  unlockedlevelID: 7a000000
+  - {fileID: 11400000, guid: b41b6f89a9b5b964f97265ee37c08c6d, type: 2}
+  unlockedlevelID: 84000000
   dropData:
+  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 80
+    minDrop: 25
+    maxDrop: 45
   - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
     dropChance: 100
-    minDrop: 50
-    maxDrop: 100
+    minDrop: 75
+    maxDrop: 150
+  - itemData: {fileID: 11400000, guid: 6448fe0d9633c8447b36c8c8ef7030f4, type: 2}
+    dropChance: 45
+    minDrop: 1
+    maxDrop: 2

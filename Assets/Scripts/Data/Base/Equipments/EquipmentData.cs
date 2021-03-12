@@ -5,11 +5,6 @@ using UnityEngine;
 public class EquipmentData : BaseItem {
 
     public int equipmentID;
-    // public EquipType type;
-    // [SerializeField] int attack;
-    // [SerializeField] int defense;
-    // [SerializeField] int health;
-    // [SerializeField] int durability;
     [Header ("Status Equipment")]
     public EquipmentStatus status;
 
@@ -100,5 +95,18 @@ public class EquipmentStatus {
         this.defense = data.defense;
         this.health = data.health;
         this.durability = data.durability;
+    }
+}
+
+[Serializable]
+public class CostData {
+    public CostRequirement requirement1;
+    public CostRequirement requirement2;
+    public CostRequirement requirement3;
+    public CostRequirement requirement4;
+    [Serializable]
+    public class CostRequirement {
+        public int resourcesID;
+        public int resourcesAmount;
     }
 }

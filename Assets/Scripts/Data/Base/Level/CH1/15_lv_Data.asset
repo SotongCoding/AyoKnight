@@ -18,21 +18,17 @@ MonoBehaviour:
   tierUse: 1
   enemies:
   - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
-  unlockedlevelID: 70000000
+  unlockedlevelID: 70000000d3000000
   dropData:
   - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
     dropChance: 100
-    minDrop: 75
-    maxDrop: 100
-  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
-    dropChance: 30
-    minDrop: 150
-    maxDrop: 200
-  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
-    dropChance: 75
-    minDrop: 20
-    maxDrop: 55
-  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
-    dropChance: 20
     minDrop: 50
-    maxDrop: 150
+    maxDrop: 100
+  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 80
+    minDrop: 50
+    maxDrop: 80
+  - itemData: {fileID: 11400000, guid: c7222278481034d48a94f7103faeb379, type: 2}
+    dropChance: 30
+    minDrop: 1
+    maxDrop: 1

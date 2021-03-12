@@ -10,21 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46cf7876773b5e647bab46c93480af62, type: 3}
-  m_Name: 13_lv_Data(H)
+  m_Name: 11_lv_Data_H
   m_EditorClassIdentifier: 
-  levelID: 132
-  levelName: More Strong ?!
-  killAmount: 20
+  levelID: 112
+  levelName: First Depature (HARD)
+  killAmount: 5
   tierUse: 3
   enemies:
   - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
-  unlockedlevelID: 8e000000
+  unlockedlevelID: 7a000000
   dropData:
   - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
     dropChance: 100
-    minDrop: 50
-    maxDrop: 125
+    minDrop: 75
+    maxDrop: 150
   - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
-    dropChance: 50
-    minDrop: 20
-    maxDrop: 35
+    dropChance: 80
+    minDrop: 15
+    maxDrop: 40
+  - itemData: {fileID: 11400000, guid: a525ee0b7bef89d40b8ca05219519f3e, type: 2}
+    dropChance: 45
+    minDrop: 1
+    maxDrop: 2
