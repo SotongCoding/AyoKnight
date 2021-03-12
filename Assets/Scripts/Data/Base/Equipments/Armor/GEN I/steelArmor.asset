@@ -24,8 +24,18 @@ MonoBehaviour:
     health: 5
     durability: 7
   unlockCost: 500
-  fullRepairCost: 150
-  enchantStatus: []
+  fullRepairCost:
+    resources:
+    - resourcesID: 2
+      resourcesAmount: 300
+  enchantStatus:
+  - requirement:
+      resources:
+      - resourcesID: 2
+        resourcesAmount: 400
+    atk: 0
+    def: 1
+    health: 0
   left: 1
   right: 1
   diagonalRight: 0

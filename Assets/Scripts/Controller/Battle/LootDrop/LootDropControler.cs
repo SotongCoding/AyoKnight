@@ -30,7 +30,7 @@ public class LootDropControler : MonoBehaviour {
                     target.GetType ().IsSubclassOf (typeof (EquipmentData))) {
 
                     Debug.Log ("Adding equipment");
-                    DB_EquipmentInventory.AddItem ((EquipmentData) target, item.GetFixDrop ());
+                    //DB_EquipmentInventory.AddItem ((EquipmentData) target, item.GetFixDrop ());
                 }
             }
         }

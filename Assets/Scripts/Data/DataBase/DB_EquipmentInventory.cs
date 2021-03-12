@@ -32,10 +32,6 @@ public class DB_EquipmentInventory : MonoBehaviour {
     public static List<EquipmentInv> GetAllItem () {
         return _instance.inventory;
     }
-
-    public static void AddItem (EquipmentData data, int amount) {
-        GetItem (data.equipmentID).AddCollectedWeapon (amount);
-    }
     #region SaveLoad
     static string savePath { get => Application.dataPath + "/SaveData/"; }
     static string fileName { get => "equipData.akdat"; }
@@ -59,7 +55,7 @@ public class DB_EquipmentInventory : MonoBehaviour {
                 _instance.inventory[index].isAvaiable = item.isAvaiable;
                 _instance.inventory[index].isEquip = item.isEquip;
 
-                _instance.inventory[index].SetEnchantData (item.enchantLevel, item.collectedWeapon);
+                _instance.inventory[index].SetEnchantLevel (item.enchantLevel);
 
                 if (item.isEquip) {
                     if (_instance.inventory[index].GetEquipBaseType () == typeof (WeaponBase)) {
@@ -93,17 +89,8 @@ public class EquipmentInv : IEquatable<EquipmentInv> {
     public int GetEnchantLevel () {
         return enchantLevel;
     }
-    public void SetEnchantData (int level, int collectedWeapon) {
-        enchantLevel = level;
-        this.collectedWeapon = collectedWeapon;
-    }
-
-    [SerializeField] int collectedWeapon;
-    public void AddCollectedWeapon (int value) {
-        collectedWeapon += value;
-    }
-    public int GetCollectedWeapon () {
-        return collectedWeapon;
+    public void SetEnchantLevel (int inputValue) {
+        enchantLevel = inputValue;
     }
     #endregion
 
@@ -142,12 +129,8 @@ public class EquipmentInv : IEquatable<EquipmentInv> {
     public void Repair () {
         cur_durability = GetStatus ().durability;
     }
-    public void Enchant (out bool success) {
-        success = false;
-        if (data.CanEnchant (collectedWeapon, enchantLevel + 1, out int materialUsed)) {
-            collectedWeapon -= materialUsed;
-            success = true;
-        }
+    public void Enchant () {
+        enchantLevel++;
     }
     public void ChangeDurability (bool isWin) {
         int ran_amout = UnityEngine.Random.Range (1, Mathf.CeilToInt (((isWin ? 0.2f : 0.1f) * GetStatus ().durability)));
@@ -176,7 +159,6 @@ public class SaveData_DBInv {
     public bool isAvaiable;
     public bool isEquip;
     public int enchantLevel;
-    public int collectedWeapon;
 
     public SaveData_DBInv () { }
 
@@ -186,6 +168,5 @@ public class SaveData_DBInv {
         this.isAvaiable = invData.isAvaiable;
         this.isEquip = invData.isEquip;
         this.enchantLevel = invData.GetEnchantLevel ();
-        this.collectedWeapon = invData.GetCollectedWeapon ();
     }
 }

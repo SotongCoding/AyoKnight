@@ -15,7 +15,14 @@ public class PopUpControler : MonoBehaviour {
             Destroy (gameObject);
         }
     }
-
+    
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="name">use 'notice', 'winlose'</param>
+    /// <param name="tittle"></param>
+    /// <param name="mainMessages"></param>
+    /// <param name="subMessages"></param>
     public static void CallPopUp (string name, string tittle, string mainMessages, string subMessages) {
         PopUpAction_Base pop = _instance.GetPopUp (name);
         pop.InitialData (tittle, mainMessages, subMessages);

@@ -14,7 +14,7 @@ public class PlayerData_Battle : MonoBehaviour {
 
     BattleData_Player CountAllStat () {
         int addHp = 0, addAtk = 0, addDef = 0;
-        int[] activeNote_weap, activeNote_armor;
+        int[] activeNote_weap = new int[4], activeNote_armor = new int[4];
         //Weapon
         addHp += weapon != null ? weapon.GetAllStat ().health : 0;
         addAtk += weapon != null ? weapon.GetAllStat ().attack : 0;
@@ -31,8 +31,8 @@ public class PlayerData_Battle : MonoBehaviour {
         addDef += accecories != null ? accecories.GetAllStat ().defense : 0;
 
         // Note
-        activeNote_weap = weapon.GetBaseData ().GetActiveNote ();
-        activeNote_armor = armor.GetBaseData ().GetActiveNote ();
+        if (weaponID != -1) activeNote_weap = weapon.GetBaseData ().GetActiveNote ();
+        if (armorID != -1) activeNote_armor = armor.GetBaseData ().GetActiveNote ();
 
         return new BattleData_Player (
             addHp + 5, addAtk, addDef,
