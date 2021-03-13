@@ -37,8 +37,7 @@ public class UICon_InvItem : MonoBehaviour {
                 matImage[i].sprite = DB_Resources.GetItem (targetCostData.resources[i].resourcesID).baseData.itemPict;
             }
 
-            matAmountText[i].text = DB_Resources.GetItem (targetCostData.resources[i].resourcesID).
-            quantity.ToString () + " / " + targetCostData.resources[i].resourcesAmount.ToString ();
+            matAmountText[i].text = targetCostData.resources[i].resourcesAmount.ToString ();
         }
 
     }
@@ -55,6 +54,7 @@ public class UICon_InvItem : MonoBehaviour {
     }
     void Initial () {
         baseData = equipment.GetBaseData ();
+        repairCost = baseData.GetFullRepairCost ();
         picture.sprite = baseData.itemPict;
         SetStatText ();
         SetButton ();
@@ -104,12 +104,23 @@ public class UICon_InvItem : MonoBehaviour {
 
             ResourcesUIControl.SetResoucesValue ();
 
-            DB_EquipmentInventory.SaveEquipData ();
-            DB_Resources.SaveResoucesData ();
+            // DB_EquipmentInventory.SaveEquipData ();
+            // DB_Resources.SaveResoucesData ();
         }
     }
     public void Repair () {
-        bool canRepair = CheckRequirement (repairCost);
+        CostData cost = new CostData ();
+        cost.resources = new CostData.CostRequirement[repairCost.resources.Length];
+        
+        for (int i = 0; i < repairCost.resources.Length; i++) {
+            int resAmount = (int) (repairCost.resources[i].resourcesAmount);
+
+            cost.resources[i] = new CostData.CostRequirement (
+                repairCost.resources[i].resourcesID,
+                (int) (resAmount - (resAmount * durability_img.fillAmount)));
+        }
+        Debug.Log ("Amount Resources : " + cost.resources.Length);
+        bool canRepair = CheckRequirement (cost);
         repair_btn.interactable = canRepair;
         if (showResReq) {
 
@@ -118,6 +129,7 @@ public class UICon_InvItem : MonoBehaviour {
                 equipment.Repair ();
                 //Initial ();
                 SetDurability ();
+                SetButton ();
 
                 ResourcesUIControl.SetResoucesValue ();
                 ShowRequirement (repairCost);
@@ -127,7 +139,8 @@ public class UICon_InvItem : MonoBehaviour {
             }
         }
         else {
-            ShowRequirement (repairCost);
+            Debug.Log ("Show resources UI");
+            ShowRequirement (cost);
             ShowResReqUI (true);
         }
 
@@ -154,6 +167,7 @@ public class UICon_InvItem : MonoBehaviour {
                 ReduceItemAmount (cost);
                 equipment.Enchant ();
                 SetStatText ();
+                SetButton ();
 
                 ResourcesUIControl.SetResoucesValue ();
                 if (enchant_btn.interactable) {

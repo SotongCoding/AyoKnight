@@ -115,6 +115,11 @@ public class CostData {
         }
     }
 
+    public CostData(CostRequirement[] resources)
+    {
+        this.resources = resources;
+    }
+
     [Serializable]
     public class CostRequirement {
         public int resourcesID = -1;

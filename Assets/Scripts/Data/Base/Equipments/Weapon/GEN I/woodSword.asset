@@ -36,6 +36,15 @@ MonoBehaviour:
     atk: 1
     def: 0
     health: 0
+  - requirement:
+      resources:
+      - resourcesID: 2
+        resourcesAmount: 200
+      - resourcesID: 1
+        resourcesAmount: 100
+    atk: 1
+    def: 0
+    health: 0
   left: 1
   right: 1
   diagonalRight: 0
