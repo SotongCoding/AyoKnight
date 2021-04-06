@@ -4,36 +4,35 @@ using UnityEngine;
 
 public class PlayerData_Battle : MonoBehaviour {
     [SerializeField] int weaponID = -1;
-    [SerializeField] WeaponBase weapon;
-    EquipmentInv weaponData;
+    EquipmentInv weapon;
 
     [SerializeField] int armorID = -1;
-    [SerializeField] ArmorBase armor;
-    EquipmentInv armorData;
+    EquipmentInv armor;
 
     [SerializeField] int accID = -1;
-    [SerializeField] AccecoriesBase accecories;
-    EquipmentInv accData;
+    EquipmentInv accecories;
 
     BattleData_Player CountAllStat () {
         int addHp = 0, addAtk = 0, addDef = 0;
-        int[] activeNote_weap, activeNote_armor;
+        int[] activeNote_weap = new int[4], activeNote_armor = new int[4];
         //Weapon
-        addHp += weapon != null ? weapon.health : 0;
-        addAtk += weapon != null ? weapon.attack : 0;
-        addDef += weapon != null ? weapon.defense : 0;
-        activeNote_weap = weapon != null ? weapon.getActiveNote () : null;
-        activeNote_armor = armor != null ? armor.getActiveNote () : null;
+        addHp += weapon != null ? weapon.GetAllStat ().health : 0;
+        addAtk += weapon != null ? weapon.GetAllStat ().attack : 0;
+        addDef += weapon != null ? weapon.GetAllStat ().defense : 0;
 
         //Armor
-        addHp += armor != null ? armor.health : 0;
-        addAtk += armor != null ? armor.attack : 0;
-        addDef += armor != null ? armor.defense : 0;
+        addHp += armor != null ? armor.GetAllStat ().health : 0;
+        addAtk += armor != null ? armor.GetAllStat ().attack : 0;
+        addDef += armor != null ? armor.GetAllStat ().defense : 0;
 
         //Acc
-        addHp += accecories != null ? accecories.health : 0;
-        addAtk += accecories != null ? accecories.attack : 0;
-        addDef += accecories != null ? accecories.defense : 0;
+        addHp += accecories != null ? accecories.GetAllStat ().health : 0;
+        addAtk += accecories != null ? accecories.GetAllStat ().attack : 0;
+        addDef += accecories != null ? accecories.GetAllStat ().defense : 0;
+
+        // Note
+        if (weaponID != -1) activeNote_weap = weapon.GetBaseData ().GetActiveNote ();
+        if (armorID != -1) activeNote_armor = armor.GetBaseData ().GetActiveNote ();
 
         return new BattleData_Player (
             addHp + 5, addAtk, addDef,
@@ -56,49 +55,63 @@ public class PlayerData_Battle : MonoBehaviour {
         };
     }
 
+    #region Switch Equip
     public void SwitchWeapon (EquipmentInv InvData, out int lastItemID, out bool success) {
         success = false;
         lastItemID = weaponID;
         if (weaponID != InvData.id) {
-            weapon = (WeaponBase) InvData.data;
             weaponID = InvData.id;
             success = true;
-            weaponData = InvData;
+            weapon = InvData;
         }
     }
-
     public void SwitchArmor (EquipmentInv InvData, out int lastItemID, out bool success) {
         success = false;
         lastItemID = armorID;
 
         if (armorID != InvData.id) {
-            armor = (ArmorBase) InvData.data;
             armorID = InvData.id;
             success = true;
-            armorData = InvData;
+            armor = InvData;
         }
     }
-
     public void SwitchAcc (EquipmentInv InvData, out int lastItemID, out bool success) {
         success = false;
         lastItemID = accID;
         if (accID != InvData.id) {
-            accecories = (AccecoriesBase) InvData.data;
             accID = InvData.id;
             success = true;
-            accData = InvData;
+            accecories = InvData;
         }
     }
-
+    #endregion
     public BattleData_Player GetPlayerData () {
         return CountAllStat ();
     }
 
     public void ReduceItemDurability (bool isWin) {
-        if (weaponData != null) weaponData.ChangeDurability (isWin);
-        if (accData != null) accData.ChangeDurability (isWin);
-        if (armorData != null) armorData.ChangeDurability (isWin);
 
-        DB_EquipmentInventory.SaveEquipData();
+        if (weapon != null) {
+            weapon.ChangeDurability (isWin, out bool isDestroy);
+            if (isDestroy) {
+                weaponID = -1;
+                weapon = null;
+            }
+        }
+        if (armor != null) {
+            armor.ChangeDurability (isWin, out bool isDestroy);
+            if (isDestroy) {
+                armorID = -1;
+                armor = null;
+            }
+        }
+        if (accecories != null) {
+            accecories.ChangeDurability (isWin, out bool isDestroy);
+            if (isDestroy) {
+                accID = -1;
+                accecories = null;
+            }
+        }
+        DB_EquipmentInventory.SaveEquipData ();
     }
 }

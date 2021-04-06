@@ -42,25 +42,28 @@ public class UIControl_MainMenu : MonoBehaviour {
         int[] eqStat = FindObjectOfType<PlayerData_Battle> ().GetEqStatus ();
         if (eqStat[0] != -1 && eqStat[1] != -1) {
             if (selectedLevel != -1) {
-                ResourcesUIControl.TurnUION(false);
+                ResourcesUIControl.TurnUION (false);
                 SceneLoader.LoadScene (3);
                 LevelLoader.LoadLevel (selectedLevel);
             }
-            else
+            else {
                 PopUpControler.CallPopUp (
                     "notice",
                     "Select A Level",
                     "Please select Avaiable level before battle Start",
                     "");
+            }
         }
-        else PopUpControler.CallPopUp (
-            "notice",
-            "Check Equipment",
-            "Please wear some equipment before battle, wear a WEAPON and ARMOR",
-            "");
+        else {
+            PopUpControler.CallPopUp (
+                "notice",
+                "Check Equipment",
+                "Please wear some equipment before battle, wear a WEAPON and ARMOR",
+                "");
+        }
     }
     public void OpenInvetory () {
         SceneLoader.LoadScene (2);
-        ResourcesUIControl.TurnUION(true);
+        ResourcesUIControl.TurnUION (true);
     }
 }

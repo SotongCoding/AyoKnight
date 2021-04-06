@@ -10,29 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 46cf7876773b5e647bab46c93480af62, type: 3}
-  m_Name: 15_lv_Data(H)
+  m_Name: 13_lv_Data_H
   m_EditorClassIdentifier: 
-  levelID: 152
-  levelName: Meet The Champion
-  killAmount: 1
-  tierUse: 3
+  levelID: 132
+  levelName: More Strong ?! (HARD)
+  killAmount: 7
+  tierUse: 4
   enemies:
-  - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
-  unlockedlevelID: 70000000
+  - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+  unlockedlevelID: 8e000000
   dropData:
   - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
     dropChance: 100
     minDrop: 75
-    maxDrop: 100
-  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
-    dropChance: 30
-    minDrop: 150
-    maxDrop: 200
+    maxDrop: 125
   - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
-    dropChance: 75
+    dropChance: 80
     minDrop: 20
-    maxDrop: 55
-  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
-    dropChance: 20
-    minDrop: 50
-    maxDrop: 150
+    maxDrop: 35
+  - itemData: {fileID: 11400000, guid: 5ad84cba63b899147a4b497947ae4dc4, type: 2}
+    dropChance: 30
+    minDrop: 1
+    maxDrop: 1

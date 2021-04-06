@@ -6,12 +6,7 @@ using UnityEngine;
 public class DB_Resources : MonoBehaviour {
 
     public static DB_Resources _instance;
-
-    const string path = "UI/Inventory/ResourcesItems/";
     [SerializeField] List<ResItemInven> inventory = new List<ResItemInven> ();
-    public static Sprite GetItemSrpite (string itemNamePaths) {
-        return Resources.Load<Sprite> (path + itemNamePaths);
-    }
 
     public static void ModifQuantity (ResourcesItem item, int amount) {
         int index = _instance.inventory.FindIndex (x => x.id == item.itemID);
@@ -37,7 +32,14 @@ public class DB_Resources : MonoBehaviour {
     }
 
     #region SaveLoad
+#if UNITY_ANDROID
+    static string savePath { get => Application.persistentDataPath + "/"; }
+#elif UNITY_EDITOR
     static string savePath { get => Application.dataPath + "/SaveData/"; }
+#else
+    static string savePath { get => Application.persistentDataPath + "/"; }
+#endif
+
     static string fileName { get => "resourcesData.akdat"; }
 
     public static void SaveResoucesData () {
@@ -55,7 +57,7 @@ public class DB_Resources : MonoBehaviour {
                 _instance.inventory[index].quantity = item.quantity;
             }
         }
-       ResourcesUIControl.SetResoucesValue();
+        ResourcesUIControl.SetResoucesValue ();
     }
     #endregion
 }

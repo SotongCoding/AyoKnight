@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelID: 121
   levelName: Meet New One
-  killAmount: 10
+  killAmount: 5
   tierUse: 1
   enemies:
   - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
@@ -22,6 +22,14 @@ MonoBehaviour:
   unlockedlevelID: 83000000
   dropData:
   - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
+    dropChance: 80
+    minDrop: 15
+    maxDrop: 30
+  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
     dropChance: 100
-    minDrop: 10
-    maxDrop: 25
+    minDrop: 50
+    maxDrop: 100
+  - itemData: {fileID: 11400000, guid: 6448fe0d9633c8447b36c8c8ef7030f4, type: 2}
+    dropChance: 30
+    minDrop: 1
+    maxDrop: 1

@@ -12,6 +12,7 @@ public abstract class PopUpAction_Base : MonoBehaviour, IEquatable<PopUpAction_B
     public Text mainMessage;
     public Text subMessage;
     protected PopUpEvent events;
+    public Button blocker;
 
     public void InitialData (string tittle, string mainMessage, string subMessage) {
         if (this.tittle != null) this.tittle.text = tittle;
@@ -29,7 +30,6 @@ public abstract class PopUpAction_Base : MonoBehaviour, IEquatable<PopUpAction_B
         events.CallBtnBlock ();
     }
     public void SetEneble (bool isEnable) {
-        this.transform.parent.gameObject.SetActive (isEnable);
         this.gameObject.SetActive (isEnable);
     }
 

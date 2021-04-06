@@ -19,12 +19,23 @@ public class LootDropControler : MonoBehaviour {
         if (isWin) {
             FindObjectOfType<WinLosePU> ().GenerateItem (getItem);
             foreach (var item in getItem) {
-                DB_Resources.ModifQuantity ((ResourcesItem) item.GetData (), item.GetFixDrop ());
+                BaseItem target = item.GetData ();
+                if (target.GetType () == (typeof (ResourcesItem)) ||
+                    target.GetType ().IsSubclassOf (typeof (ResourcesItem))) {
+
+                    DB_Resources.ModifQuantity ((ResourcesItem) target, item.GetFixDrop ());
+                }
+                else if (target.GetType () == (typeof (EquipmentData)) ||
+                    target.GetType ().IsSubclassOf (typeof (EquipmentData))) {
+
+                    //DB_EquipmentInventory.AddItem ((EquipmentData) target, item.GetFixDrop ());
+                }
             }
         }
         getItem.Clear ();
         dropItems.Clear ();
         DB_Resources.SaveResoucesData ();
+        DB_EquipmentInventory.SaveEquipData ();
     }
     void CalculateDrop () {
         foreach (var item in dropItems) {

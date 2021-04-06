@@ -14,10 +14,9 @@ public class WinLosePU : PopUpAction_Base {
             obj.Initial (item);
         }
     }
-    void ClearItem(){
-        foreach (Transform item in lootPlace)
-        {
-            Destroy(item.gameObject);
+    void ClearItem () {
+        foreach (Transform item in lootPlace) {
+            Destroy (item.gameObject);
         }
     }
     public override void SetData () {
@@ -28,12 +27,14 @@ public class WinLosePU : PopUpAction_Base {
     void NextEvent () {
         SetEneble (false);
         SceneLoader.LoadScene (1);
-        ClearItem();
-        ResourcesUIControl.TurnUION(true);
+        ClearItem ();
+        ResourcesUIControl.TurnUION (true);
     }
     void RetryEvent () {
-        SetEneble (false);
-        LevelLoader.ReLoadLevel ();
-        ClearItem();
+        LevelLoader.ReLoadLevel (out bool canReload);
+        if (canReload) {
+            SetEneble (false);
+            ClearItem ();
+        }
     }
 }

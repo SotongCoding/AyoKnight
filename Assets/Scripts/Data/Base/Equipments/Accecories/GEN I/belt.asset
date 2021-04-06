@@ -13,14 +13,26 @@ MonoBehaviour:
   m_Name: belt
   m_EditorClassIdentifier: 
   baseItemID: AC1_1_3
-  itemName: Brave Ring
+  itemName: Belt
+  itemPict: {fileID: 21300000, guid: 779e5362eb316d948afb27f583c4260c, type: 3}
   itemDescription: Maybe item pict not correct
-  itemPath: belt
   equipmentID: 3
-  type: 2
-  attack: 0
-  defense: 0
-  health: 5
-  durability: 5
+  status:
+    type: 2
+    attack: 0
+    defense: 0
+    health: 5
+    durability: 5
   unlockCost: 0
-  fullRepairCost: 100
+  fullRepairCost:
+    resources:
+    - resourcesID: 2
+      resourcesAmount: 200
+  enchantStatus:
+  - requirement:
+      resources:
+      - resourcesID: 2
+        resourcesAmount: 200
+    atk: 0
+    def: 1
+    health: 0

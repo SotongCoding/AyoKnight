@@ -8,10 +8,7 @@ public class UI_DropItemControl : MonoBehaviour {
     public Text amount;
     // Start is called before the first frame update
     public void Initial (LootDropData data) {
-        picture.sprite = data.GetData ().Equals (typeof (EquipmentData)) ?
-            DB_EquipmentInventory.GetItemSrpite (data.GetData ().itemPath) :
-            DB_Resources.GetItemSrpite (data.GetData ().itemPath);
-
-        amount.text =data.GetFixDrop().ToString();
+        picture.sprite = data.GetData ().itemPict;
+        amount.text = data.GetFixDrop ().ToString ();
     }
 }

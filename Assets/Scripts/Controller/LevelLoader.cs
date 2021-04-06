@@ -16,10 +16,24 @@ public class LevelLoader : MonoBehaviour {
         _instance.selectedLevel = DB_LevelData.GetLevel (level).levelData;
         _instance.curentLevel = level;
     }
-    public static void ReLoadLevel () {
-        SceneLoader.UnloadScene (3);
-        SceneLoader.LoadScene (3);
-        LoadLevel (_instance.curentLevel);
+    public static void ReLoadLevel (out bool canReload) {
+        int[] eqStat = FindObjectOfType<PlayerData_Battle> ().GetEqStatus ();
+
+        if (eqStat[0] != -1 && eqStat[1] != -1) {
+            SceneLoader.UnloadScene (3);
+            SceneLoader.LoadScene (3);
+            LoadLevel (_instance.curentLevel);
+            canReload = true;
+
+        }
+        else {
+            PopUpControler.CallPopUp (
+                "notice",
+                "Check Equipment",
+                "Some your equipment has destroy, Please check your Equipment again",
+                "");
+            canReload = false;
+        }
     }
 
     public static LevelData getLevelData () {

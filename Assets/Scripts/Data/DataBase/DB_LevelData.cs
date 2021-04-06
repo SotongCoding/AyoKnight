@@ -34,7 +34,14 @@ public class DB_LevelData : MonoBehaviour {
     }
 
     #region SaveLoad
+#if UNITY_ANDROID
+    static string savePath { get => Application.persistentDataPath + "/"; }
+#elif UNITY_EDITOR
     static string savePath { get => Application.dataPath + "/SaveData/"; }
+#else
+    static string savePath { get => Application.persistentDataPath + "/"; }
+#endif
+
     static string fileName { get => "levelData.akdat"; }
 
     public static void SaveLevelData () {

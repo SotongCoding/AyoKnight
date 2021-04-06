@@ -14,16 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseItemID: WP1_1_1
   itemName: Wood Sword
+  itemPict: {fileID: 21300000, guid: 07f96209b6d0dd34c84cb7f95041f9c1, type: 3}
   itemDescription: Sword that created form wood. Easy to use.
-  itemPath: wood_sword
   equipmentID: 1
-  type: 0
-  attack: 1
-  defense: 0
-  health: 0
-  durability: 5
+  status:
+    type: 0
+    attack: 1
+    defense: 0
+    health: 0
+    durability: 5
   unlockCost: 0
-  fullRepairCost: 100
+  fullRepairCost:
+    resources:
+    - resourcesID: 2
+      resourcesAmount: 200
+  enchantStatus:
+  - requirement:
+      resources:
+      - resourcesID: 2
+        resourcesAmount: 200
+    atk: 1
+    def: 0
+    health: 0
   left: 1
   right: 1
   diagonalRight: 0
