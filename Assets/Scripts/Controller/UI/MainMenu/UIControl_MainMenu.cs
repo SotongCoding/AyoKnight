@@ -43,7 +43,7 @@ public class UIControl_MainMenu : MonoBehaviour {
         if (eqStat[0] != -1 && eqStat[1] != -1) {
             if (selectedLevel != -1) {
                 ResourcesUIControl.TurnUION (false);
-                SceneLoader.LoadScene (3);
+                SceneLoader.LoadScene (4);
                 LevelLoader.LoadLevel (selectedLevel);
             }
             else {

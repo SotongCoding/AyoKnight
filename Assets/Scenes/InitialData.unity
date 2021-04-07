@@ -121,49 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &44274133
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 44274134}
-  - component: {fileID: 44274135}
-  m_Layer: 0
-  m_Name: FireBaseStart
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &44274134
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44274133}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 463463281}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &44274135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 44274133}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 615c7c56b9d8efa419fed98b585e3a88, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &49817887
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,7 +400,7 @@ GameObject:
   m_Component:
   - component: {fileID: 266257868}
   m_Layer: 0
-  m_Name: --BattleData--
+  m_Name: --Play--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -728,7 +685,6 @@ Transform:
   - {fileID: 1102329748}
   - {fileID: 1556678934}
   - {fileID: 1519732945}
-  - {fileID: 44274134}
   - {fileID: 1816536043}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -1153,6 +1109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0859a7b81f6b71040b42fad37ee5ef28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedLevel: {fileID: 0}
 --- !u!1 &578749551
 GameObject:
   m_ObjectHideFlags: 0
@@ -2395,6 +2352,9 @@ MonoBehaviour:
     category: 1
   - sceneID: 3
     sceneName: Battle
+    category: 1
+  - sceneID: 4
+    sceneName: Explore
     category: 0
 --- !u!1 &1146128655
 GameObject:
@@ -4044,7 +4004,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 463463281}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1816536044
 MonoBehaviour:
@@ -4058,6 +4018,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bfd4a5b961e9ffe4b9b92f03a0393527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTest: 1
 --- !u!1 &1875410077
 GameObject:
   m_ObjectHideFlags: 0

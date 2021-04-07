@@ -9,7 +9,7 @@ public class LevelLoader : MonoBehaviour {
             _instance = this;
         }
     }
-    LevelData selectedLevel;
+    [SerializeField] LevelData selectedLevel;
     int curentLevel;
 
     public static void LoadLevel (int level) {

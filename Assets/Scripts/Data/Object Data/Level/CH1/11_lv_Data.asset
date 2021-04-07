@@ -14,17 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelID: 111
   levelName: First Depature
-  killAmount: 3
-  tierUse: 1
-  enemies:
-  - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+  roomAmount: 0
+  battleRoom:
+    killAmount: 3
+    tierUse: 1
+    enemies:
+    - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+    dropData: []
+  miningRoom:
+    miningItem: []
   unlockedlevelID: 79000000
-  dropData:
-  - itemData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
-    dropChance: 100
-    minDrop: 50
-    maxDrop: 100
-  - itemData: {fileID: 11400000, guid: dd023b07006bb534882f1d8c8b8d1dfe, type: 2}
-    dropChance: 80
-    minDrop: 10
-    maxDrop: 25

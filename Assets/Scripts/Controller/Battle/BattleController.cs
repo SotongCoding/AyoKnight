@@ -53,7 +53,7 @@ public class BattleController : MonoBehaviour {
     private void Start () {
         isStartBattle = false;
         isBattlePause = true;
-        Invoke ("CallOnBattleStart", 3);
+        Invoke ("CallOnBattleStart", 1);
     }
     private void OnDestroy () {
         OnGetPhase = null;
@@ -156,17 +156,19 @@ public class BattleController : MonoBehaviour {
         if (isWin) {
 
             PopUpControler.CallPopUp ("winlose", "WIN", "", "");
+            
+            //Unlock Level
 
-            foreach (int levelID in LevelLoader.getLevelData ().unlockedlevelID) {
-                DB_LevelData.GetLevel (levelID).Unlock ();
-            }
+            // foreach (int levelID in LevelLoader.getLevelData ().unlockedlevelID) {
+            //     DB_LevelData.GetLevel (levelID).Unlock ();
+            // }
 
         }
         else {
             PopUpControler.CallPopUp ("winlose", "LOSE", "", "");
         }
 
-        FindObjectOfType<PlayerData_Battle> ().ReduceItemDurability (isWin);
+        //FindObjectOfType<PlayerData_Battle> ().ReduceItemDurability (isWin);
 
         DB_LevelData.SaveLevelData ();
     }

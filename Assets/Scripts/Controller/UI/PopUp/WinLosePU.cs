@@ -26,15 +26,16 @@ public class WinLosePU : PopUpAction_Base {
 
     void NextEvent () {
         SetEneble (false);
-        SceneLoader.LoadScene (1);
+        FindObjectOfType<ExploreControler> ().LoadMainRoad ();
         ClearItem ();
-        ResourcesUIControl.TurnUION (true);
+        ResourcesUIControl.TurnUION (false);
+        SceneLoader.UnloadScene (3);
     }
     void RetryEvent () {
-        LevelLoader.ReLoadLevel (out bool canReload);
-        if (canReload) {
-            SetEneble (false);
-            ClearItem ();
-        }
+        // LevelLoader.ReLoadLevel (out bool canReload);
+        // if (canReload) {
+        //     SetEneble (false);
+        //     ClearItem ();
+        // }
     }
 }

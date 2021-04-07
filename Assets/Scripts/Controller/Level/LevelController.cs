@@ -20,11 +20,11 @@ public class LevelController : MonoBehaviour {
         BattleController._instance.OnEnemyDeath += SetEnemy;
     }
     void InitialData (LevelData level) {
-        targetKill = level.killAmount;
-        curentTier = level.tierUse;
-        enemys = level.enemies;
+        targetKill = level.GetBattleRoomData ().killAmount;
+        curentTier = level.GetBattleRoomData ().tierUse;
+        enemys = level.GetBattleRoomData ().enemies;
         ui.ChangeAmout (targetKill);
-        dropControler.Initial (level.GetDropList ());
+        dropControler.Initial (level.GetBattleRoomData ().GetDropData ());
     }
     public void SetEnemy () {
         int ran = Random.Range (0, enemys.Count);

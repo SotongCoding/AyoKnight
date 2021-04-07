@@ -226,19 +226,15 @@ public class UICon_InvItem : MonoBehaviour {
     bool CheckRequirement (CostData cost) {
         for (int i = 0; i < cost.resources.Length;) {
             if (cost.resources[i].resourcesID != -1) {
-                Debug.Log ("Check Amount");
                 if (DB_Resources.GetItem (cost.resources[i].resourcesID).quantity >= //your Data
                     cost.resources[0].resourcesAmount) { //cost Data 
-                    Debug.Log ("Amount Reach");
                     i++;
                 }
                 else {
-                    Debug.Log ("Amount not Reach");
                     break;
                 }
             }
             else {
-                Debug.Log ("ID not Correct");
                 i++;
             }
 
