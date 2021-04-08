@@ -37,16 +37,18 @@ public class BattleController : MonoBehaviour {
         noteControl = FindObjectOfType<NoteControl> ();
         uiControl = FindObjectOfType<UIControl_Battle> ();
 
-        setPlayerData (FindObjectOfType<PlayerData_Battle> ().GetPlayerData ());
         FindObjectOfType<LevelController> ().SetEnemy ();
-
+        //Set Player
+        EquipOnBattle[] equips = FindObjectOfType<SmithRoomControl> ().GetBattleEquip ();
+        setPlayerData (new BattleData_Player (equips[0], equips[1], equips[2]));
+        
         OnBattleStart += SetNewTurn;
         OnBattleStart += CallOnGetPhase;
         OnBattleStart += BattleStart;
 
         onBattleDone += BattleEnd;
         onBattleDone += delegate { AdsManager.CallAds (AdsType.video); };
-        
+
         OnEnemyDeath += SetNewTurn;
 
     }
@@ -156,7 +158,7 @@ public class BattleController : MonoBehaviour {
         if (isWin) {
 
             PopUpControler.CallPopUp ("winlose", "WIN", "", "");
-            
+
             //Unlock Level
 
             // foreach (int levelID in LevelLoader.getLevelData ().unlockedlevelID) {

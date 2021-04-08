@@ -17,7 +17,7 @@ public class LevelLoader : MonoBehaviour {
         _instance.curentLevel = level;
     }
     public static void ReLoadLevel (out bool canReload) {
-        int[] eqStat = FindObjectOfType<PlayerData_Battle> ().GetEqStatus ();
+        int[] eqStat = DB_EquipmentInventory.GetEquipmentStatus().GetEqStatus ();
 
         if (eqStat[0] != -1 && eqStat[1] != -1) {
             SceneLoader.UnloadScene (3);

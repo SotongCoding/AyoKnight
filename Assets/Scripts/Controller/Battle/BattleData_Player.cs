@@ -17,16 +17,21 @@ public class BattleData_Player {
     public int defense_fix;
     public int attack_fix;
 
-    public BattleData_Player (int health, int attack, int defense, int[] activeNote_weap, int[] activeNote_armor) {
-        this.health = health;
-        this.attack = attack;
-        this.defense = defense;
-        this.activeNote_weap = activeNote_weap;
-        this.activeNote_armor = activeNote_armor;
+    public BattleData_Player (EquipOnBattle weapon, EquipOnBattle armor, EquipOnBattle accecories) {
+        int[] activeNote_weap = new int[4], activeNote_armor = new int[4];
+        // Status 
+        EquipmentStatus allStat = new EquipmentStatus (
+            weapon.GetTotalStat (), armor.GetTotalStat (), accecories.GetTotalStat (),
+            new EquipmentStatus (EquipType.none, 0, 0, 5));
 
-        this.heatlth_fix = health;
-        this.attack_fix = attack;
-        this.defense_fix = defense;
+        this.heatlth_fix = allStat.health;
+        this.defense_fix = allStat.defense;
+        this.attack_fix = allStat.attack;
+
+        // Note
+        this.activeNote_weap = weapon.baseData.GetActiveNote ();
+        this.activeNote_armor = armor.baseData.GetActiveNote ();
+
     }
 
     public void TakeDamage (int comeDamage) {

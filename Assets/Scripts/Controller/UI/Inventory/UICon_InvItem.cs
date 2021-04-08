@@ -13,8 +13,7 @@ public class UICon_InvItem : MonoBehaviour {
     public Text atk, def, hp;
 
     //Action UI
-    int unlockCost;
-    CostData repairCost;
+    CostData unlockCost;
     public Button unlock_btn, equip_btn;
     public Button repair_btn, enchant_btn;
     public Text unlockCost_text;
@@ -54,19 +53,18 @@ public class UICon_InvItem : MonoBehaviour {
     }
     void Initial () {
         baseData = equipment.GetBaseData ();
-        repairCost = baseData.GetFullRepairCost ();
         picture.sprite = baseData.itemPict;
         SetStatText ();
         SetButton ();
-        SetDurability ();
+        //SetDurability ();
 
         //Unlock
         unlockCost = baseData.GetUnlockCost ();
-        unlockCost_text.text = unlockCost.ToString ();
+        unlockCost_text.text = unlockCost.resources[0].resourcesAmount.ToString();
 
     }
     void SetStatText () {
-        EquipmentStatus status = equipment.GetAllStat ();
+        EquipmentStatus status = equipment.GetStatus ();
 
         atk.text = status.attack.ToString ();
         def.text = status.defense.ToString ();
@@ -80,75 +78,91 @@ public class UICon_InvItem : MonoBehaviour {
 
         unlock_btn.gameObject.SetActive (!equipment.isAvaiable);
         unlockCost_text.transform.parent.gameObject.SetActive (!equipment.isAvaiable);
-        enchant_btn.interactable = (baseData.GetEnchantData (equipment.GetEnchantLevel ()) != null);
-        repair_btn.interactable = equipment.cur_durability < baseData.GetDurability ();
         equip_btn.interactable = !equipment.isEquip;
     }
-    void SetDurability () {
+    // void SetDurability () {
 
-        float fill_durability = ((float) equipment.cur_durability / (float) baseData.GetDurability ());
-        durability_img.fillAmount = fill_durability;
-        durability_img.color = durability_color.Evaluate (fill_durability);
-        picture.color = durability_img.fillAmount <= 0 ? Color.red : Color.white;
+    //     float fill_durability = ((float) equipment.cur_durability / (float) baseData.GetDurability ());
+    //     durability_img.fillAmount = fill_durability;
+    //     durability_img.color = durability_color.Evaluate (fill_durability);
+    //     picture.color = durability_img.fillAmount <= 0 ? Color.red : Color.white;
 
-    }
+    // }
     public void ReInitial () {
         Initial ();
     }
 
     //Btn Action
     public void Unlock () {
-        if (DB_Resources.GetItem (1).quantity >= unlockCost) {
-            DB_Resources.GetItem (1).quantity -= unlockCost;
+
+        bool canUnlock = CheckRequirement (unlockCost);
+        if (canUnlock) {
+            ReduceItemAmount (unlockCost);
             equipment.UnlockItem ();
-            Initial ();
+            SetStatText ();
+            SetButton ();
 
             ResourcesUIControl.SetResoucesValue ();
+            if (enchant_btn.interactable) { } else {
+                ShowResReqUI (false);
+            }
 
             DB_EquipmentInventory.SaveEquipData ();
             DB_Resources.SaveResoucesData ();
         }
-    }
-    public void Repair () {
-        CostData cost = new CostData ();
-        cost.resources = new CostData.CostRequirement[repairCost.resources.Length];
+        else {
+            string material = "";
+            foreach (var item in unlockCost.resources) {
+                ResItemInven newItem = DB_Resources.GetItem (item.resourcesID);
 
-        for (int i = 0; i < repairCost.resources.Length; i++) {
-            int resAmount = (int) (repairCost.resources[i].resourcesAmount);
-
-            cost.resources[i] = new CostData.CostRequirement (
-                repairCost.resources[i].resourcesID,
-                durability_img.fillAmount > 0 ?
-
-                (int) (resAmount - (resAmount * durability_img.fillAmount)) :
-                resAmount * 2
+                material += "\n" + newItem.baseData.name + " : " +
+                    newItem.quantity + "/" + item.resourcesAmount.ToString ();
+            }
+            PopUpControler.CallPopUp ("notice", "UNLOCK FAILED", "Resouces amount are not reach requirement amount",
+                "You Need :" + material
             );
         }
-        bool canRepair = CheckRequirement (cost);
-        repair_btn.interactable = canRepair;
-        if (showResReq) {
-
-            if (canRepair) {
-                ReduceItemAmount (cost);
-                equipment.Repair ();
-                //Initial ();
-                SetDurability ();
-                SetButton ();
-
-                ResourcesUIControl.SetResoucesValue ();
-                ShowRequirement (cost);
-
-                DB_EquipmentInventory.SaveEquipData ();
-                DB_Resources.SaveResoucesData ();
-            }
-        }
-        else {
-            Debug.Log ("Show resources UI");
-            ShowRequirement (cost);
-            ShowResReqUI (true);
-        }
-
     }
+    // public void Repair () {
+    //     CostData cost = new CostData ();
+    //     cost.resources = new CostData.CostRequirement[repairCost.resources.Length];
+
+    //     for (int i = 0; i < repairCost.resources.Length; i++) {
+    //         int resAmount = (int) (repairCost.resources[i].resourcesAmount);
+
+    //         cost.resources[i] = new CostData.CostRequirement (
+    //             repairCost.resources[i].resourcesID,
+    //             durability_img.fillAmount > 0 ?
+
+    //             (int) (resAmount - (resAmount * durability_img.fillAmount)) :
+    //             resAmount * 2
+    //         );
+    //     }
+    //     bool canRepair = CheckRequirement (cost);
+    //     repair_btn.interactable = canRepair;
+    //     if (showResReq) {
+
+    //         if (canRepair) {
+    //             ReduceItemAmount (cost);
+    //             equipment.Repair ();
+    //             //Initial ();
+    //             SetDurability ();
+    //             SetButton ();
+
+    //             ResourcesUIControl.SetResoucesValue ();
+    //             ShowRequirement (cost);
+
+    //             DB_EquipmentInventory.SaveEquipData ();
+    //             DB_Resources.SaveResoucesData ();
+    //         }
+    //     }
+    //     else {
+    //         Debug.Log ("Show resources UI");
+    //         ShowRequirement (cost);
+    //         ShowResReqUI (true);
+    //     }
+
+    // }
     public void Equip () {
         if (durability_img.fillAmount > 0) {
             inventoryEquip.SwitchEquip (equipment);
@@ -156,73 +170,72 @@ public class UICon_InvItem : MonoBehaviour {
             SetButton ();
 
             DB_EquipmentInventory.SaveEquipData ();
-        }else{
-            PopUpControler.CallPopUp (
-            "notice",
-            "Item Has Broke",
-            "Please equip other item, or repair this item.",
-            "");
-        }
-    }
-    public void Enchant () {
-
-        CostData cost = equipment.GetBaseData ().GetEnchantData (
-            equipment.GetEnchantLevel ()).requirement;
-
-        bool canEnchant = CheckRequirement (cost);
-
-        enchant_btn.interactable = canEnchant;
-
-        if (showResReq) {
-            if (canEnchant) {
-                ReduceItemAmount (cost);
-                equipment.Enchant ();
-                SetStatText ();
-                SetButton ();
-
-                ResourcesUIControl.SetResoucesValue ();
-                if (enchant_btn.interactable) {
-                    ShowRequirement (cost);
-                }
-                else {
-                    ShowResReqUI (false);
-                }
-
-                DB_EquipmentInventory.SaveEquipData ();
-                DB_Resources.SaveResoucesData ();
-            }
         }
         else {
-            CheckNextEnchatStat ();
-            ShowRequirement (cost);
-            ShowResReqUI (true);
+            PopUpControler.CallPopUp (
+                "notice",
+                "Item Has Broke",
+                "Please equip other item, or repair this item.",
+                "");
         }
     }
+    //public void Enchant () {
 
-    ////////////////
+    //     CostData cost = equipment.GetBaseData ().GetEnchantData (
+    //         equipment.GetEnchantLevel ()).requirement;
 
-    void CheckNextEnchatStat () {
-        EquipmentStatus status = equipment.GetAllStat ();
-        EquipmentStatus nextEnchant = equipment.GetBaseData ().GetEnchantData (equipment.GetEnchantLevel ()).GetStatus ();
+    //     bool canEnchant = CheckRequirement (cost);
 
-        int tempAtk = status.attack + nextEnchant.attack;
-        int tempDef = status.defense + nextEnchant.defense;
-        int tempHeal = status.health + nextEnchant.health;
+    //     enchant_btn.interactable = canEnchant;
 
-        atk.text = tempAtk.ToString ();
-        def.text = tempDef.ToString ();
-        hp.text = tempHeal.ToString ();
+    //     if (showResReq) {
+    //         if (canEnchant) {
+    //             ReduceItemAmount (cost);
+    //             equipment.Enchant ();
+    //             SetStatText ();
+    //             SetButton ();
 
-        atk.color = tempAtk > status.attack ? Color.green :
-            tempAtk < status.attack ? Color.red : Color.white;
+    //             ResourcesUIControl.SetResoucesValue ();
+    //             if (enchant_btn.interactable) {
+    //                 ShowRequirement (cost);
+    //             }
+    //             else {
+    //                 ShowResReqUI (false);
+    //             }
 
-        def.color = tempDef > status.defense ? Color.green :
-            tempDef < status.defense ? Color.red : Color.white;
+    //             DB_EquipmentInventory.SaveEquipData ();
+    //             DB_Resources.SaveResoucesData ();
+    //         }
+    //     }
+    //     else {
+    //         CheckNextEnchatStat ();
+    //         ShowRequirement (cost);
+    //         ShowResReqUI (true);
+    //     }
+    // }
 
-        hp.color = tempHeal > status.health ? Color.green :
-            tempHeal < status.health ? Color.red : Color.white;
+    // void CheckNextEnchantStat () {
+    //     EquipmentStatus status = equipment.GetAllStat ();
+    //     EquipmentStatus nextEnchant = equipment.GetBaseData ().GetEnchantData (equipment.GetEnchantLevel ()).GetStatus ();
 
-    }
+    //     int tempAtk = status.attack + nextEnchant.attack;
+    //     int tempDef = status.defense + nextEnchant.defense;
+    //     int tempHeal = status.health + nextEnchant.health;
+
+    //     atk.text = tempAtk.ToString ();
+    //     def.text = tempDef.ToString ();
+    //     hp.text = tempHeal.ToString ();
+
+    //     atk.color = tempAtk > status.attack ? Color.green :
+    //         tempAtk < status.attack ? Color.red : Color.white;
+
+    //     def.color = tempDef > status.defense ? Color.green :
+    //         tempDef < status.defense ? Color.red : Color.white;
+
+    //     hp.color = tempHeal > status.health ? Color.green :
+    //         tempHeal < status.health ? Color.red : Color.white;
+
+    // }
     bool CheckRequirement (CostData cost) {
         for (int i = 0; i < cost.resources.Length;) {
             if (cost.resources[i].resourcesID != -1) {

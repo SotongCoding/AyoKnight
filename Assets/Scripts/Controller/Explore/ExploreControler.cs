@@ -8,6 +8,22 @@ public class ExploreControler : MonoBehaviour {
 
     [Header ("UI Element")]
     public Button[] choiceBtn = new Button[3];
+    public void SetButtonAction (int index, System.Action buttonEvent, string message, Sprite buttonIcon) {
+        choiceBtn[index].interactable = true;
+        choiceBtn[index].GetComponentInChildren<Text> ().text = message;
+
+        choiceBtn[index].onClick.RemoveAllListeners ();
+        choiceBtn[index].onClick.AddListener (delegate {
+            buttonEvent ();
+        });
+    }
+    public void SetButtonAction (int index, bool interactable) {
+        choiceBtn[index].interactable = interactable;
+    }
+    public void SetButtonAction (int index, string message) {
+        choiceBtn[index].GetComponentInChildren<Text> ().text = message;
+    }
+    public Button backButton;
     public Canvas[] roomsUI; //0. Main Road 1. Smith 2.Mining 3.Bless
     public Sprite[] roomIcon = new Sprite[4];
     public string[] roomDescription = new string[] {
@@ -33,7 +49,15 @@ public class ExploreControler : MonoBehaviour {
     }
     public void LoadMainRoad () {
         roomsUI[0].enabled = true;
+        for (int i = 1; i < roomsUI.Length; i++) {
+            roomsUI[i].enabled = false;
+        }
+
         GetNextRooms ();
+        backButton.onClick.RemoveAllListeners ();
+        backButton.onClick.AddListener (delegate {
+            SceneLoader.LoadScene (1);
+        });
     }
 
     #region Random Room
@@ -48,11 +72,8 @@ public class ExploreControler : MonoBehaviour {
         for (int i = 0; i < 3; i++) {
             int roomNumber = Random.Range (0, avaiableRoom.Count);
 
-            // choiceBtn[i].GetComponentInChildren<SpriteRenderer> ().sprite = roomIcon[i];
-            choiceBtn[i].GetComponentInChildren<Text> ().text = roomDescription[avaiableRoom[roomNumber]];
-
             System.Action buttonCall = new System.Action (roomAction[avaiableRoom[roomNumber]]);
-            choiceBtn[i].onClick.AddListener (delegate { buttonCall (); });
+            SetButtonAction (i, buttonCall, roomDescription[avaiableRoom[roomNumber]], null);
 
             avaiableRoom.RemoveAt (roomNumber);
         }
@@ -64,6 +85,11 @@ public class ExploreControler : MonoBehaviour {
 
     }
     void LoadSmith () {
+        FindObjectOfType<SmithRoomControl> ().GetActions ();
+        backButton.onClick.RemoveAllListeners ();
+        backButton.onClick.AddListener (delegate { LoadMainRoad (); });
+
+        roomsUI[1].enabled = true;
         Debug.Log ("This will Load Smith");
     }
 

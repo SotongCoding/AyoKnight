@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enums : MonoBehaviour { }
 
 public enum EquipType {
+    none,
     weapon,
     armor,
     acc
@@ -13,4 +14,9 @@ public enum EquipType {
 public enum Phase {
     player,
     enemy
+}
+
+public enum AdsType {
+    banner,
+    video
 }

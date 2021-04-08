@@ -18,21 +18,15 @@ MonoBehaviour:
   itemDescription: Maybe item pict not correct
   equipmentID: 3
   status:
-    type: 2
+    type: 3
     attack: 0
     defense: 0
     health: 5
-    durability: 5
-  unlockCost: 0
-  fullRepairCost:
+  unlockCost:
     resources:
-    - resourcesID: 2
-      resourcesAmount: 200
+    - resourcesID: 1
+      resourcesAmount: 0
   enchantStatus:
-  - requirement:
-      resources:
-      - resourcesID: 2
-        resourcesAmount: 200
-    atk: 0
+  - atk: 0
     def: 1
     health: 0

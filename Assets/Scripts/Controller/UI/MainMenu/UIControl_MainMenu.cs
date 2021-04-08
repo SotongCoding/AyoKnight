@@ -39,7 +39,7 @@ public class UIControl_MainMenu : MonoBehaviour {
     }
     public void LoadLevel () {
 
-        int[] eqStat = FindObjectOfType<PlayerData_Battle> ().GetEqStatus ();
+        int[] eqStat = DB_EquipmentInventory.GetEquipmentStatus ().GetEqStatus ();
         if (eqStat[0] != -1 && eqStat[1] != -1) {
             if (selectedLevel != -1) {
                 ResourcesUIControl.TurnUION (false);

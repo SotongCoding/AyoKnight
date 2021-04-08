@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class EquipmentData : BaseItem {
 
     public int equipmentID;
@@ -9,17 +10,10 @@ public class EquipmentData : BaseItem {
     public EquipmentStatus status;
 
     [Header ("Item Cost")]
-    [SerializeField] int unlockCost;
-    [SerializeField] CostData fullRepairCost;
+    [SerializeField] CostData unlockCost;
     #region Getter
-    public int GetDurability () {
-        return status.durability;
-    }
-    public int GetUnlockCost () {
+    public CostData GetUnlockCost () {
         return unlockCost;
-    }
-    public CostData GetFullRepairCost () {
-        return fullRepairCost;
     }
     public virtual int[] GetActiveNote () {
         return new int[0];
@@ -39,7 +33,8 @@ public class EquipmentData : BaseItem {
             sumDef += enchantStatus[i].def;
             sumHealth += enchantStatus[i].health;
         }
-        return new EquipmentStatus (status.type, sumAtk, sumDef, sumHealth, status.durability);
+
+        return new EquipmentStatus (status.type, sumAtk, sumDef, sumHealth);
     }
 
     public EnchantData GetEnchantData (int enchantLevel) {
@@ -51,29 +46,19 @@ public class EquipmentData : BaseItem {
 
 [Serializable]
 public class EnchantData {
-    [Header ("Resources Need")]
-    public CostData requirement;
     [Header ("Status will Add")]
     public int atk;
     public int def;
     public int health;
 
     public EnchantData () { }
-
-    public EnchantData (CostData requirement, int atk, int def, int health) {
-        this.requirement = requirement;
-        this.atk = atk;
-        this.def = def;
-        this.health = health;
-    }
     public EnchantData (EnchantData data) {
-        this.requirement = data.requirement;
         this.atk = data.atk;
         this.def = data.def;
         this.health = data.health;
     }
     public EquipmentStatus GetStatus () {
-        return new EquipmentStatus (EquipType.weapon, atk, def, health, 0);
+        return new EquipmentStatus (EquipType.none, atk, def, health);
     }
 }
 
@@ -83,16 +68,14 @@ public class EquipmentStatus {
     public int attack;
     public int defense;
     public int health;
-    public int durability;
 
     public EquipmentStatus () { }
 
-    public EquipmentStatus (EquipType type, int attack, int defense, int health, int durability) {
+    public EquipmentStatus (EquipType type, int attack, int defense, int health) {
         this.type = type;
         this.attack = attack;
         this.defense = defense;
         this.health = health;
-        this.durability = durability;
     }
 
     public EquipmentStatus (EquipmentStatus data) {
@@ -100,7 +83,28 @@ public class EquipmentStatus {
         this.attack = data.attack;
         this.defense = data.defense;
         this.health = data.health;
-        this.durability = data.durability;
+    }
+
+    /// <summary>
+    /// SUM All input Variable
+    /// </summary>
+    /// <param name="statuses"></param>
+    public EquipmentStatus (params EquipmentStatus[] statuses) {
+        this.type = EquipType.none;
+        int atk = 0, def = 0, health = 0;
+
+        foreach (var item in statuses) {
+            atk += item.attack;
+            def += item.defense;
+            health += item.health;
+        }
+
+        this.attack = atk;
+        this.defense = def;
+        this.health = health;
+    }
+    public override string ToString () {
+        return "A :" + attack + " D :" + defense + " H :" + health;
     }
 }
 
@@ -115,8 +119,7 @@ public class CostData {
         }
     }
 
-    public CostData(CostRequirement[] resources)
-    {
+    public CostData (CostRequirement[] resources) {
         this.resources = resources;
     }
 

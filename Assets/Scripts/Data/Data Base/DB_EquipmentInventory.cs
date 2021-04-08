@@ -7,6 +7,7 @@ using UnityEngine;
 public class DB_EquipmentInventory : MonoBehaviour {
     public static DB_EquipmentInventory _instance;
     [SerializeField] List<EquipmentInv> inventory = new List<EquipmentInv> ();
+    [SerializeField] EquipedEquipment equipedEquipment = new EquipedEquipment ();
 
     private void Awake () {
 
@@ -28,6 +29,10 @@ public class DB_EquipmentInventory : MonoBehaviour {
         for (int i = 0; i < 3; i++) {
             inventory[i].UnlockItem ();
         }
+    }
+
+    public static EquipedEquipment GetEquipmentStatus () {
+        return _instance.equipedEquipment;
     }
     public static List<EquipmentInv> GetAllItem () {
         return _instance.inventory;
@@ -52,26 +57,22 @@ public class DB_EquipmentInventory : MonoBehaviour {
     public static void LoadEquipData () {
         SaveLoadManager.LoadData<SaveData_DBInv> (savePath, fileName, out List<SaveData_DBInv> loadedData);
         if (loadedData.Count > 0) {
-            PlayerData_Battle player = FindObjectOfType<PlayerData_Battle> ();
 
             foreach (var item in loadedData) {
                 int index = _instance.inventory.IndexOf (GetItem (item.id));
 
-                _instance.inventory[index].cur_durability = item.cur_durability;
                 _instance.inventory[index].isAvaiable = item.isAvaiable;
                 _instance.inventory[index].isEquip = item.isEquip;
 
-                _instance.inventory[index].SetEnchantLevel (item.enchantLevel);
-
                 if (item.isEquip) {
                     if (_instance.inventory[index].GetEquipBaseType () == typeof (WeaponBase)) {
-                        player.SwitchWeapon (_instance.inventory[index], out int lastID, out bool success);
+                        _instance.equipedEquipment.SwitchWeapon (_instance.inventory[index], out int lastID, out bool success);
                     }
                     else if (_instance.inventory[index].GetEquipBaseType () == typeof (ArmorBase)) {
-                        player.SwitchArmor (_instance.inventory[index], out int lastID, out bool success);
+                        _instance.equipedEquipment.SwitchArmor (_instance.inventory[index], out int lastID, out bool success);
                     }
                     else if (_instance.inventory[index].GetEquipBaseType () == typeof (AccecoriesBase)) {
-                        player.SwitchAcc (_instance.inventory[index], out int lastID, out bool success);
+                        _instance.equipedEquipment.SwitchAcc (_instance.inventory[index], out int lastID, out bool success);
                     }
                 }
 
@@ -83,40 +84,78 @@ public class DB_EquipmentInventory : MonoBehaviour {
 }
 
 [Serializable]
+public class EquipedEquipment {
+    [SerializeField] int weaponID = -1;
+    public EquipmentInv weapon { get; private set; }
+
+    [SerializeField] int armorID = -1;
+    public EquipmentInv armor { get; private set; }
+
+    [SerializeField] int accID = -1;
+    public EquipmentInv accecories { get; private set; }
+
+    public EquipmentStatus CountAllStat () {
+        // Status 
+        EquipmentStatus allStat = new EquipmentStatus (weapon.GetStatus (), armor.GetStatus (), accecories.GetStatus ());
+
+        return allStat;
+    }
+    /// <summary>
+    /// 0=Weapon 1=Armor 2=Acc
+    /// </summary>
+    /// <returns></returns>
+    public int[] GetEqStatus () {
+        return new int[] { weaponID, armorID, accID };
+    }
+
+    #region Switch Equip
+    public void SwitchWeapon (EquipmentInv InvData, out int lastItemID, out bool success) {
+        success = false;
+        lastItemID = weaponID;
+        if (weaponID != InvData.id) {
+            weaponID = InvData.id;
+            success = true;
+            weapon = InvData;
+        }
+    }
+    public void SwitchArmor (EquipmentInv InvData, out int lastItemID, out bool success) {
+        success = false;
+        lastItemID = armorID;
+
+        if (armorID != InvData.id) {
+            armorID = InvData.id;
+            success = true;
+            armor = InvData;
+        }
+    }
+    public void SwitchAcc (EquipmentInv InvData, out int lastItemID, out bool success) {
+        success = false;
+        lastItemID = accID;
+        if (accID != InvData.id) {
+            accID = InvData.id;
+            success = true;
+            accecories = InvData;
+        }
+    }
+    #endregion
+}
+
+[Serializable]
 public class EquipmentInv : IEquatable<EquipmentInv> {
     public int id;
     [SerializeField] EquipmentData data;
-    public int cur_durability;
     public bool isAvaiable;
     public bool isEquip;
     #region Enchant
     //enchant Data
-    [SerializeField] int enchantLevel;
-    public int GetEnchantLevel () {
-        return enchantLevel;
-    }
-    public void SetEnchantLevel (int inputValue) {
-        enchantLevel = inputValue;
-    }
     #endregion
 
     #region Getter Data
     public EquipmentStatus GetStatus () {
         return data.status;
     }
-    public EquipmentStatus GetEnchantStatus () {
+    public EquipmentStatus GetEnchantStatus (int enchantLevel) {
         return data.GetEnchantStat (enchantLevel);
-    }
-    public EquipmentStatus GetAllStat () {
-        EquipmentStatus baseStat = GetStatus ();
-        EquipmentStatus enchantStat = GetEnchantStatus ();
-
-        return new EquipmentStatus (baseStat.type,
-            baseStat.attack + enchantStat.attack,
-            baseStat.defense + enchantStat.defense,
-            baseStat.health + enchantStat.health,
-            baseStat.durability);
-
     }
     public Type GetEquipBaseType () {
         return data.GetType ();
@@ -125,31 +164,12 @@ public class EquipmentInv : IEquatable<EquipmentInv> {
         return data;
     }
     #endregion
-    public void UpdateDurability (int increaseAmount) {
-        cur_durability += GetStatus ().durability;
-    }
     public void UnlockItem () {
         isAvaiable = true;
-        cur_durability = GetStatus ().durability;
     }
-    public void Repair () {
-        cur_durability = GetStatus ().durability;
-    }
-    public void Enchant () {
-        enchantLevel++;
-    }
-    public void ChangeDurability (bool isWin, out bool isDestroy) {
-        isDestroy = false;
-        int ran_amout = UnityEngine.Random.Range (1, Mathf.CeilToInt ((
-            (isWin ? 0.2f : 0.1f) * GetStatus ().durability)));
-
-        cur_durability -= ran_amout;
-        if (cur_durability <= 0) {
-            cur_durability = 0;
-            isDestroy = true;
-            isEquip = false;
-        }
-    }
+    // public void Repair () {
+    //     cur_durability = GetStatus ().durability;
+    // }
 
     public override bool Equals (object obj) {
         if (obj == null) return false;
@@ -172,15 +192,12 @@ public class SaveData_DBInv {
     public int cur_durability;
     public bool isAvaiable;
     public bool isEquip;
-    public int enchantLevel;
 
     public SaveData_DBInv () { }
 
     public SaveData_DBInv (EquipmentInv invData) {
         this.id = invData.id;
-        this.cur_durability = invData.cur_durability;
         this.isAvaiable = invData.isAvaiable;
         this.isEquip = invData.isEquip;
-        this.enchantLevel = invData.GetEnchantLevel ();
     }
 }

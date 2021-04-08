@@ -5,9 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UICon_Inventory : MonoBehaviour {
-    public Transform itemPlace;
-
-    PlayerData_Battle player;
+    EquipedEquipment playerEquipment;
 
     public Image equipedWeapon, equipedArmor, equipedAcc;
     public Text atkVal, defVal, hpVal;
@@ -15,7 +13,7 @@ public class UICon_Inventory : MonoBehaviour {
 
     private void Awake () {
         itemsView = FindObjectsOfType<UICon_InvItem> ().ToList ();
-        player = FindObjectOfType<PlayerData_Battle> ();
+        playerEquipment = DB_EquipmentInventory.GetEquipmentStatus ();
     }
 
     private void Start () {
@@ -27,7 +25,7 @@ public class UICon_Inventory : MonoBehaviour {
         SceneLoader.LoadScene (2);
     }
     void SetItemView () {
-        int[] eqStatus = player.GetEqStatus ();
+        int[] eqStatus = playerEquipment.GetEqStatus ();
 
         if (eqStatus[0] != -1) equipedWeapon.sprite = DB_EquipmentInventory.GetItem (eqStatus[0]).GetBaseData ().itemPict;
         if (eqStatus[1] != -1) equipedArmor.sprite = DB_EquipmentInventory.GetItem (eqStatus[1]).GetBaseData ().itemPict;
@@ -38,21 +36,21 @@ public class UICon_Inventory : MonoBehaviour {
         int lastID = -1;
 
         if (data.GetEquipBaseType () == typeof (WeaponBase)) {
-            player.SwitchWeapon (data, out int lasItemID, out bool isSuccess);
+            playerEquipment.SwitchWeapon (data, out int lasItemID, out bool isSuccess);
             if (isSuccess) {
                 lastID = lasItemID;
                 equipedWeapon.sprite = data.GetBaseData ().itemPict;
             }
         }
         else if (data.GetEquipBaseType () == typeof (ArmorBase)) {
-            player.SwitchArmor (data, out int lasItemID, out bool isSuccess);
+            playerEquipment.SwitchArmor (data, out int lasItemID, out bool isSuccess);
             if (isSuccess) {
                 equipedArmor.sprite = data.GetBaseData ().itemPict;
                 lastID = lasItemID;
             }
         }
         else if (data.GetEquipBaseType () == typeof (AccecoriesBase)) {
-            player.SwitchAcc (data, out int lasItemID, out bool isSuccess);
+            playerEquipment.SwitchAcc (data, out int lasItemID, out bool isSuccess);
             if (isSuccess) {
                 equipedAcc.sprite = data.GetBaseData ().itemPict;
                 lastID = lasItemID;
@@ -79,11 +77,11 @@ public class UICon_Inventory : MonoBehaviour {
     }
 
     void UpdateStatusValue () {
-        int[] stat = player.GetBattleData ();
+        EquipmentStatus stat = playerEquipment.CountAllStat ();
 
-        atkVal.text = stat[0].ToString ();
-        defVal.text = stat[1].ToString ();
-        hpVal.text = stat[2].ToString ();
+        atkVal.text = stat.attack.ToString ();
+        defVal.text = stat.defense.ToString ();
+        hpVal.text = (stat.health + 5).ToString ();
     }
 
 }

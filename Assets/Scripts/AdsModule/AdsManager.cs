@@ -42,8 +42,3 @@ public class AdsManager : MonoBehaviour {
         Advertisement.Show (videoID);
     }
 }
-
-public enum AdsType{
-    banner,
-    video
-}
