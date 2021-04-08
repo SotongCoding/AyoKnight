@@ -94,6 +94,11 @@ public class ExploreControler : MonoBehaviour {
     }
 
     void LoadBless () {
+        FindObjectOfType<BlessRoomControl> ().GetActions ();
+        backButton.onClick.RemoveAllListeners ();
+        backButton.onClick.AddListener (delegate { LoadMainRoad (); });
+
+        roomsUI[3].enabled = true;
         Debug.Log ("This will Load Bless");
     }
 

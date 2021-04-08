@@ -40,8 +40,9 @@ public class BattleController : MonoBehaviour {
         FindObjectOfType<LevelController> ().SetEnemy ();
         //Set Player
         EquipOnBattle[] equips = FindObjectOfType<SmithRoomControl> ().GetBattleEquip ();
-        setPlayerData (new BattleData_Player (equips[0], equips[1], equips[2]));
-        
+        setPlayerData (new BattleData_Player (equips[0], equips[1], equips[2],
+            FindObjectOfType<BlessRoomControl> ().GetAllStatus ()));
+
         OnBattleStart += SetNewTurn;
         OnBattleStart += CallOnGetPhase;
         OnBattleStart += BattleStart;

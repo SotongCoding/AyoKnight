@@ -20,11 +20,13 @@ public class SmithRoomControl : MonoBehaviour {
 
     System.Action<int>[] avaiableAction;
     ExploreControler exploreControler;
+    BlessRoomControl blessRoom;
 
     private void Awake () {
-        SetEquipment (DB_EquipmentInventory.GetEquipmentStatus ());
         exploreControler = FindObjectOfType<ExploreControler> ();
-
+        blessRoom = FindObjectOfType<BlessRoomControl> ();
+        
+        SetEquipment (DB_EquipmentInventory.GetEquipmentStatus ());
         avaiableAction = new System.Action<int>[] {
             UpgradeWeapon,
             UpgradeArmor,
@@ -45,6 +47,7 @@ public class SmithRoomControl : MonoBehaviour {
     }
 
     public void GetActions () {
+        UpdateStatusView();
         List<int> avaiableNumber = new List<int> () {
             0,
             1,
@@ -78,8 +81,8 @@ public class SmithRoomControl : MonoBehaviour {
             weapon.GetTotalStat (),
             armor.GetTotalStat (),
             acc.GetTotalStat (),
-            // Base Player Stat
-            new EquipmentStatus (EquipType.none, 0, 0, 5));
+            blessRoom.GetAllStatus ()
+        );
 
         status[0].text = totalStat.attack.ToString ();
         status[1].text = totalStat.defense.ToString ();
