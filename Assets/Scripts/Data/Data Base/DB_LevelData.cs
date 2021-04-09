@@ -66,29 +66,6 @@ public class DB_LevelData : MonoBehaviour {
 }
 
 [Serializable]
-public class LevelStatus {
-    [SerializeField] int levelID;
-    public LevelData levelData;
-    [SerializeField] bool isOpen;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="dificult"> 0 : Normal 1 : Hard</param>
-    /// <returns></returns>
-    public bool IsOpen () { return isOpen; }
-    public int GetID () { return levelID; }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="dificult"> 0 : Normal 1 : Hard</param>
-    /// <returns></returns>
-    public void Unlock () {
-        isOpen = true;
-    }
-}
-
-[Serializable]
 public class SaveData_DBLevel {
     public int id;
     public bool isOpen;

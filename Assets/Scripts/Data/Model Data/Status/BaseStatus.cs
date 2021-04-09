@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class BaseStatus {
     public int attack;
     public int defense;
     public int health;
 
-    public BaseStatus () { }
+    public BaseStatus () { } 
 
     public BaseStatus (int attack, int defense, int health) {
         this.attack = attack;

@@ -17,14 +17,15 @@ MonoBehaviour:
   itemPict: {fileID: 21300000, guid: 779e5362eb316d948afb27f583c4260c, type: 3}
   itemDescription: Maybe item pict not correct
   equipmentID: 3
-  status:
+  equipData:
     type: 3
-    attack: 0
-    defense: 0
-    health: 5
+    status:
+      attack: 0
+      defense: 0
+      health: 5
   unlockCost:
     resources:
-    - resourcesID: 1
+    - resourcesData: {fileID: 11400000, guid: 4386b0ffddbfc3b44a729f69fddf8765, type: 2}
       resourcesAmount: 0
   enchantStatus:
   - atk: 0

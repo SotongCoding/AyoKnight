@@ -42,8 +42,8 @@ public class SmithRoomControl : MonoBehaviour {
         };
     }
 
-    public EquipmentStatus GetAllStat () {
-        return new EquipmentStatus (weapon.GetTotalStat (), armor.GetTotalStat (), acc.GetTotalStat ());
+    public BaseStatus GetAllStat () {
+        return new BaseStatus (weapon.GetTotalStat (), armor.GetTotalStat (), acc.GetTotalStat ());
     }
 
     public void GetActions () {
@@ -77,7 +77,7 @@ public class SmithRoomControl : MonoBehaviour {
         enchantLevel[1].text = "Level " + (armor.enchanLevel + 1).ToString ();
         enchantLevel[2].text = "Level " + (acc.enchanLevel + 1).ToString ();
 
-        EquipmentStatus totalStat = new EquipmentStatus (
+        BaseStatus totalStat = new BaseStatus (
             weapon.GetTotalStat (),
             armor.GetTotalStat (),
             acc.GetTotalStat (),
@@ -189,8 +189,8 @@ public class EquipOnBattle {
     public EquipmentData baseData; //{ private set; get; }
     public int enchanLevel;
 
-    public EquipmentStatus GetTotalStat () {
-        return new EquipmentStatus (baseData.status, baseData.GetEnchantStat (enchanLevel));
+    public BaseStatus GetTotalStat () {
+        return new BaseStatus (baseData.equipData.status, baseData.GetEnchantStat (enchanLevel));
     }
     public EquipOnBattle (EquipmentData baseData, int enchanLevel) {
         this.baseData = baseData;

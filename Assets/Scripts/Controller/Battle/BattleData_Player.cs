@@ -17,10 +17,10 @@ public class BattleData_Player {
     public int defense_fix;
     public int attack_fix;
 
-    public BattleData_Player (EquipOnBattle weapon, EquipOnBattle armor, EquipOnBattle accecories, EquipmentStatus playerStat) {
+    public BattleData_Player (EquipOnBattle weapon, EquipOnBattle armor, EquipOnBattle accecories, BaseStatus playerStat) {
         int[] activeNote_weap = new int[4], activeNote_armor = new int[4];
         // Status 
-        EquipmentStatus allStat = new EquipmentStatus (
+        BaseStatus allStat = new BaseStatus (
             weapon.GetTotalStat (), armor.GetTotalStat (), accecories.GetTotalStat (),
             playerStat);
 

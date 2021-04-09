@@ -31,9 +31,9 @@ public class UICon_InvItem : MonoBehaviour {
     public GameObject requirementOBJ;
     void ShowRequirement (CostData targetCostData) {
         for (int i = 0; i < targetCostData.resources.Length; i++) {
-            if (targetCostData.resources[i].resourcesID != -1 && targetCostData.resources[i].resourcesID >= 0) {
+            if (targetCostData.resources[i].resourcesData != null) {
                 matImage[i].transform.parent.gameObject.SetActive (true);
-                matImage[i].sprite = DB_Resources.GetItem (targetCostData.resources[i].resourcesID).baseData.itemPict;
+                matImage[i].sprite = targetCostData.resources[i].resourcesData.itemPict;
             }
 
             matAmountText[i].text = targetCostData.resources[i].resourcesAmount.ToString ();
@@ -60,11 +60,11 @@ public class UICon_InvItem : MonoBehaviour {
 
         //Unlock
         unlockCost = baseData.GetUnlockCost ();
-        unlockCost_text.text = unlockCost.resources[0].resourcesAmount.ToString();
+        unlockCost_text.text = unlockCost.resources[0].resourcesAmount.ToString ();
 
     }
     void SetStatText () {
-        EquipmentStatus status = equipment.GetStatus ();
+        BaseStatus status = equipment.GetStatus ();
 
         atk.text = status.attack.ToString ();
         def.text = status.defense.ToString ();
@@ -113,7 +113,7 @@ public class UICon_InvItem : MonoBehaviour {
         else {
             string material = "";
             foreach (var item in unlockCost.resources) {
-                ResItemInven newItem = DB_Resources.GetItem (item.resourcesID);
+                ResItemInven newItem = DB_Resources.GetItem (item.resourcesData.itemID);
 
                 material += "\n" + newItem.baseData.name + " : " +
                     newItem.quantity + "/" + item.resourcesAmount.ToString ();
@@ -238,9 +238,9 @@ public class UICon_InvItem : MonoBehaviour {
     // }
     bool CheckRequirement (CostData cost) {
         for (int i = 0; i < cost.resources.Length;) {
-            if (cost.resources[i].resourcesID != -1) {
-                if (DB_Resources.GetItem (cost.resources[i].resourcesID).quantity >= //your Data
-                    cost.resources[0].resourcesAmount) { //cost Data 
+            if (cost.resources[i].resourcesData != null) {
+                if (DB_Resources.GetItem (cost.resources[i].resourcesData.itemID).quantity >= //your Data
+                    cost.resources[i].resourcesAmount) { //cost Data 
                     i++;
                 }
                 else {
@@ -261,8 +261,8 @@ public class UICon_InvItem : MonoBehaviour {
     }
     void ReduceItemAmount (CostData cost) {
         for (int i = 0; i < cost.resources.Length; i++) {
-            if (cost.resources[i].resourcesID != -1) {
-                DB_Resources.GetItem (cost.resources[i].resourcesID).quantity -= cost.resources[i].resourcesAmount;
+            if (cost.resources[i].resourcesData != null) {
+                DB_Resources.GetItem (cost.resources[i].resourcesData.itemID).quantity -= cost.resources[i].resourcesAmount;
             }
         }
     }

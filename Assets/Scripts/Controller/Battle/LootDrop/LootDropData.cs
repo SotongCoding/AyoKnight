@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class LootDropData {
+public class LootDropData { 
     [Header ("Drop Data")]
     [SerializeField] BaseItem itemData;
     [Tooltip ("Between 0-100.")]

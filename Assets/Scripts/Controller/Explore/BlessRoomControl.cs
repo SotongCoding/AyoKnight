@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BlessRoomControl : MonoBehaviour {
 
-    public EquipmentStatus playerBaseStat { get => new EquipmentStatus (EquipType.none, 0, 0, 5); }
-    List<EquipmentStatus> modifStat = new List<EquipmentStatus> ();
+    public BaseStatus playerBaseStat { get => new BaseStatus (0, 0, 5); }
+    List<BaseStatus> modifStat = new List<BaseStatus> ();
 
     ExploreControler exploreControler;
     SmithRoomControl smithRoom;
@@ -14,7 +14,7 @@ public class BlessRoomControl : MonoBehaviour {
         smithRoom = FindObjectOfType<SmithRoomControl> ();
     }
 
-    public EquipmentStatus GetAllStatus () {
+    public BaseStatus GetAllStatus () {
         int atk = 0, def = 0, health = 0;
 
         if (modifStat.Count != 0) {
@@ -25,18 +25,19 @@ public class BlessRoomControl : MonoBehaviour {
             }
         }
 
-        return new EquipmentStatus (playerBaseStat,
-            new EquipmentStatus (EquipType.none, atk, def, health));
+        return new BaseStatus (
+            playerBaseStat,
+            new BaseStatus (atk, def, health));
     }
 
     public void GetActions () {
 
         for (int i = 0; i < 3; i++) {
-            EquipmentStatus created = CreateBaseStatus ();
+            BaseStatus created = CreateBaseStatus ();
             BlessAction (i, created);
         }
     }
-    void BlessAction (int buttonIndex, EquipmentStatus createdStatus) {
+    void BlessAction (int buttonIndex, BaseStatus createdStatus) {
         exploreControler.SetButtonAction (buttonIndex,
             delegate {
                 AddBaseStatus (createdStatus);
@@ -50,17 +51,17 @@ public class BlessRoomControl : MonoBehaviour {
             null);
     }
 
-    EquipmentStatus CreateBaseStatus () {
+    BaseStatus CreateBaseStatus () {
         int maxRange = 3;
 
         int atk = Random.Range (0, maxRange + 1);
         int def = Random.Range (0, maxRange + 1);
         int health = Random.Range (0, maxRange + 1) * 5;
 
-        return new EquipmentStatus (EquipType.none, atk, def, health);
+        return new BaseStatus (atk, def, health);
     }
 
-    void AddBaseStatus (EquipmentStatus status) {
+    void AddBaseStatus (BaseStatus status) {
         modifStat.Add (status);
     }
 }

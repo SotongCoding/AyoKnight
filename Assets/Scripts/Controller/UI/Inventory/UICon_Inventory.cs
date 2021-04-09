@@ -77,7 +77,7 @@ public class UICon_Inventory : MonoBehaviour {
     }
 
     void UpdateStatusValue () {
-        EquipmentStatus stat = playerEquipment.CountAllStat ();
+        BaseStatus stat = playerEquipment.CountAllStat ();
 
         atkVal.text = stat.attack.ToString ();
         defVal.text = stat.defense.ToString ();
