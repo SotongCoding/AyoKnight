@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3075c0e1d88374b37b8131e65a387b4b, type: 3}
+  m_Name: LD_01
+  m_EditorClassIdentifier: 
+  levelId: lev_00
+  levelName: Training
+  LevelDescription: Lets Warmup before we Start our Adventure.
+  waves:
+  - enemys:
+    - {fileID: 11400000, guid: 326056fde80d8484db322b9d29493875, type: 2}
+    - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
+    - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+    maxEnemyOnStage: 0
+    minArrow: 2
+    maxArrow: 4
+    noteVariation: 010000000200000003000000
+  - enemys:
+    - {fileID: 11400000, guid: 326056fde80d8484db322b9d29493875, type: 2}
+    - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
+    - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+    maxEnemyOnStage: 0
+    minArrow: 2
+    maxArrow: 4
+    noteVariation: 010000000200000003000000
+  - enemys:
+    - {fileID: 11400000, guid: 326056fde80d8484db322b9d29493875, type: 2}
+    - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
+    - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
+    maxEnemyOnStage: 0
+    minArrow: 2
+    maxArrow: 4
+    noteVariation: 010000000200000003000000
