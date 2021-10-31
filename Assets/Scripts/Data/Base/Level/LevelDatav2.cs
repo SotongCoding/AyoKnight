@@ -20,28 +20,34 @@ public struct LevelWave
 {
     [Header("Enemys")]
     public EnemyData[] enemys;
-    public int maxEnemyOnStage;
 
     [Header("Note On Battle")]
     [SerializeField] int minArrow;
     [SerializeField] int maxArrow;
     public int noteAmount { get { return Random.Range(minArrow, maxArrow); } }
-    public NoteType[] noteVariation;
+    [SerializeField] ArrowType[] arrowVariation;
+    public int[] NoteVariation {get{
+        int[] data = new int[arrowVariation.Length];
+        for (int i = 0; i < arrowVariation.Length; i++)
+        {
+            data[i] = (int) arrowVariation[i];
+        }
+        return data;
+    }
+    }
 
     public LevelWave(LevelWave newData)
     {
         this.enemys = newData.enemys;
         this.minArrow = newData.minArrow;
         this.maxArrow = newData.maxArrow;
-        this.noteVariation = newData.noteVariation;
-        this.maxEnemyOnStage = newData.maxEnemyOnStage;
-
+        this.arrowVariation = newData.arrowVariation;
     }
 }
-public enum NoteType
+public enum ArrowType
 {
-    up = 1,
-    down = 2,
-    left = 3,
-    right = 4
+    up = 0,
+    down = 1,
+    left = 2,
+    right = 3
 }

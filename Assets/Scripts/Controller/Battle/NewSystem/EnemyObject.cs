@@ -9,6 +9,7 @@ public class EnemyObject : MonoBehaviour
     public bool Initialized{private set; get;}
     EnemyData data;
     public void Initial(EnemyData enemData){
+        data = enemData;
         SetPictureImage();
 
         Initialized = true;
