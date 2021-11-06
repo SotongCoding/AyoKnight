@@ -20,6 +20,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 326056fde80d8484db322b9d29493875, type: 2}
     - {fileID: 11400000, guid: 0c320f12fce2689439d99c3b55c19ad0, type: 2}
     - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
-    minArrow: 2
-    maxArrow: 6
+    - {fileID: 11400000, guid: b41b6f89a9b5b964f97265ee37c08c6d, type: 2}
+    minArrow: 8
+    maxArrow: 10
     arrowVariation: 0000000001000000

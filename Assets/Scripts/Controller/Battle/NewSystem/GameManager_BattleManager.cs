@@ -54,8 +54,6 @@ namespace FH_BattleModule
             currentEnemyIndex = 0;
 
             SetEnemy();
-            combatUI.SetArrow(comboHandler.SetCombo(currentWave.NoteVariation, currentWave.noteAmount));
-
         }
         #endregion
 
@@ -100,6 +98,12 @@ namespace FH_BattleModule
             }
         }
 
+        #endregion
+
+        #region Combo
+        public void SetCombo(){
+            combatUI.SetArrow(comboHandler.SetCombo(currentWave.NoteVariation, currentWave.noteAmount));
+        }
         #endregion
     }
 }

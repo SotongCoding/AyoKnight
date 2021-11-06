@@ -16,4 +16,5 @@ MonoBehaviour:
   attack: 1
   turnAmount: 1
   noteAmount: 3
-  picture: {fileID: 21300000, guid: 6aa7885fc04ed0c499288189df703c15, type: 3}
+  picture: {fileID: -8135399689879082639, guid: 0d80fd243189b4aaa8c381b92037837a,
+    type: 3}
