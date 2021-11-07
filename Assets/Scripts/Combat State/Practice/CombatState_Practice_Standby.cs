@@ -3,29 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using SotongUtility.StatePattern;
+using FH_BattleModule;
 namespace FH_StateModule
 {
-    public class CombatState_Standby : StandbyPhase
+    public class CombatState_Practice_Standby : StandbyPhase
     {
-       public override IEnumerator BeginState()
+        public override IEnumerator BeginState()
         {
-            Debug.Log("Call Combat Mnager for Set Enemy and Player");
+            UIHandler.CombatUI.Debug("Call Combat Mnager for Set Enemy and Player");
+            GameManager_BattleManager.Instance.NextSwitchUnit();
+            GameManager_BattleManager.Instance.SetUnitPriority(true);
             yield return new WaitForSeconds(1);
-            Debug.Log("Call Running State");
-            RunningState();
+            UIHandler.CombatUI.Debug("Call Running State");
+            StartCoroutine(RunningState());
         }
         public override IEnumerator RunningState()
         {
-           Debug.Log("Here maybe Play some Movie if Some Condition if Fullfilled");
+            UIHandler.CombatUI.Debug("Here maybe Play some Movie if Some Condition if Fullfilled");
             yield return new WaitForSeconds(5);
-            Debug.Log("Call End State");
-            EndState();
+            UIHandler.CombatUI.Debug("Call End State");
+            StartCoroutine(EndState());
         }
         public override IEnumerator EndState()
         {
-            Debug.Log("Here End of Standby Phase");
+            UIHandler.CombatUI.Debug("Here End of Standby Phase");
             yield return new WaitForSeconds(1);
-            Debug.Log("Begin Call State Stand By Once more");
+            UIHandler.CombatUI.Debug("Begin Call State Action");
 
             StateHelper.ChangeCombatState("actionPhase");
         }

@@ -7,7 +7,7 @@ namespace FH_ActionModule
     public interface IUnitAction
     {
         string actionCode {get;} 
-        IEnumerator ProccessAction();
+        IEnumerator ProccessAction(System.Action onDoneAction);
     }
 }
 

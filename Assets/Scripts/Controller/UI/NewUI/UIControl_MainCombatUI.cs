@@ -2,27 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 using SotongUtility;
+using System;
 
 namespace FH_UIControl
 {
     public class UIControl_MainCombatUI : MonoBehaviour
     {
-       public CombatUI_Arrow [] generatedArrow{private set; get;}
+        public List<CombatUI_Arrow> generatedArrow { private set; get; } = new List<CombatUI_Arrow>();
+        [SerializeField] GameObject actionUI;
+        [SerializeField] TextMeshProUGUI debugText;
+
+        public void Debug(string messege){
+            debugText.text = messege;
+        }
 
         #region Arrow Button
         [SerializeField] Transform arrowPlaces;
         #endregion
 
+        #region Timer UI
+        [SerializeField] Image fill_timePickArrow;
+        #endregion
         public void SetArrow(int[] arrowData)
         {
-            generatedArrow = new CombatUI_Arrow[arrowData.Length];
-            for (int i =0 ;i< arrowData.Length; i++)
+            generatedArrow.Clear();
+            for (int i = 0; i < arrowData.Length; i++)
             {
-                
+
                 CombatUI_Arrow arrow = PoolObjectSystem.Instance.RequestObject(PoolObjectSystem.PoolTag.UIArrow).GetComponent<CombatUI_Arrow>();
-                generatedArrow[i] = arrow;
+                generatedArrow.Add(arrow);
 
                 arrow.transform.SetParent(arrowPlaces);
                 arrow.transform.position = Vector3.zero;
@@ -31,6 +42,20 @@ namespace FH_UIControl
                 arrow.Initial(arrowData[i]);
             }
 
+        }
+        public void ResetArrow(){
+            foreach (var item in generatedArrow)
+            {
+                item.gameObject.SetActive(false);
+                PoolObjectSystem.Instance.StoreObject(item);
+            }
+        }
+        internal void SetTimerAmount(float currentPickTime, float pickArrowTime)
+        {
+            fill_timePickArrow.fillAmount = currentPickTime / pickArrowTime;
+        }
+        public void ShowActionUI(bool showIt){
+            actionUI.SetActive(showIt);
         }
     }
 }

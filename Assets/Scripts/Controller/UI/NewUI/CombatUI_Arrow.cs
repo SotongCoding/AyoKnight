@@ -16,13 +16,16 @@ namespace FH_UIControl
         const string UISpriteId_Arrow = "arrow";
         const string CombatAtlasCode = "atlasCombat";
 
+        private void OnDisable() {
+            picture.color = Color.white;
+        }
 
         [SerializeField] Image picture;
         public void Initial(int arrowCode)
         {
             picture.sprite = SpriteLoader.Instance.GetSprite(CombatAtlasCode, UISpriteId_Arrow + arrowCode);
         }
-        public void SetActive(bool isActive){
+        public void SetCorrect(bool isActive){
             picture.color = isActive? Color.green : Color.red;
         }
     }

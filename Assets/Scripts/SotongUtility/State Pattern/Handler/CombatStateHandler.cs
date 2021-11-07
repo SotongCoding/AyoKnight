@@ -15,7 +15,6 @@ namespace SotongUtility.StatePattern
                 avaiableState.Add(item.stateCode, item);
             }
 
-            CallState("basicAttack");
         }
 
         public void CallState(string stateCode)

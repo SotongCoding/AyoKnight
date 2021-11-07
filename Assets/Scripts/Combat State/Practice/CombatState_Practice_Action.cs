@@ -3,37 +3,57 @@ using System.Collections.Generic;
 using UnityEngine;
 using SotongUtility.StatePattern;
 
+using FH_BattleModule;
 namespace FH_StateModule
 {
     public class CombatState_Practice_Action : ActionPhase
     {
         public override IEnumerator BeginState()
         {
-            Debug.Log("Check Manager what should I Do : Attack or Defense. Then Call Unit Action for Do that");
-            yield return new WaitForSeconds(1);
-            Debug.Log("Call Combo Arrow");
-            yield return new WaitForSeconds(1);
-            Debug.Log("Call Running State");
+            UIHandler.CombatUI.Debug("Begin Of Action Phase of Current Player and Enemys");
+            yield return new WaitForSeconds(3);
+            StartCoroutine(RunningState());
         }
         public override IEnumerator RunningState()
         {
-            Debug.Log("Call Unit State to Do something like Manager Said");
-            Debug.Log("Enable UI and Start Combo Timer");
-            yield return new WaitForSeconds(1);
-            Debug.Log("Here wait until all Action is True");
-            Debug.Log("Like animation and other");
+            // Player
+            GameManager_BattleManager.Instance.SetUnitPriority(true);
+            StartCoroutine(SetAction()); //Call Arrow Control
+            UIHandler.CombatUI.Debug("Begin Current Player Action and Animation");
+            yield return new WaitUntil(GameManager_BattleManager.Instance.currentPlayerPlay.actionManager.IsCurrentActionDone);
 
-            yield return new WaitForSeconds(5);
-            Debug.Log("Call End State");
-            EndState();
+            // Enemy
+            GameManager_BattleManager.Instance.SetUnitPriority(false);
+            StartCoroutine(SetAction()); // Call Arrow Control
+            UIHandler.CombatUI.Debug("Begin Current Enemy Action");
+            yield return new WaitUntil(GameManager_BattleManager.Instance.currentEnemyPlay.actionManager.IsCurrentActionDone);
+
+            yield return new WaitForSeconds(1);
+            UIHandler.CombatUI.Debug("Call End State");
+            StartCoroutine(EndState());
         }
         public override IEnumerator EndState()
         {
-            Debug.Log("Here End of Action State.");
+            UIHandler.CombatUI.Debug("Here End of Action State.");
             yield return new WaitForSeconds(1);
-            Debug.Log("Begin Call State Stand By Once more");
+            UIHandler.CombatUI.Debug("Begin Call State Stand By Once more");
 
             StateHelper.ChangeCombatState("standbyPhase");
+        }
+
+        IEnumerator SetAction()
+        {
+            UIHandler.CombatUI.Debug("Call Unit State to Do something like Manager Said");
+            UIHandler.CombatUI.Debug("Enable UI and Start Combo Timer");
+
+            GameManager_BattleManager.Instance.SetCombo();
+            GameManager_BattleManager.Instance.SetPickArrowTime();
+
+            UIHandler.CombatUI.ShowActionUI(true);
+            GameManager_BattleManager.Instance.BeginPickArrowTime();
+            UIHandler.CombatUI.Debug("Player doing combo");
+            yield return new WaitForSeconds(5);
+            UIHandler.CombatUI.ShowActionUI(false);
         }
 
 

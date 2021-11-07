@@ -26,7 +26,7 @@ namespace SotongUtility.StatePattern
         public static void ChangeCombatState(string stateCode)
         {
             if (_combatState == null)
-                MonoBehaviour.FindObjectOfType<CombatStateHandler>().CallState(stateCode);
+                _combatState = MonoBehaviour.FindObjectOfType<CombatStateHandler>();
 
             _combatState.CallState(stateCode);
         }

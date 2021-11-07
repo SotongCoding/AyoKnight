@@ -6,17 +6,19 @@ namespace FH_ActionModule
 {
     public class SimplePlayerAttack : BasicAttack
     {
-        public override IEnumerator ProccessAction()
+        public override IEnumerator ProccessAction(System.Action onActionDone)
         {
-            Debug.Log("Move Toward Enemys");
+            UIHandler.CombatUI.Debug("Move Toward Enemys");
             yield return new WaitForSeconds(3);
-            Debug.Log("Calculating damage");
+            UIHandler.CombatUI.Debug("Calculating damage");
             yield return new WaitForSeconds(3);
-            Debug.Log("Play Anim Attack");
+            UIHandler.CombatUI.Debug("Play Anim Attack");
             yield return new WaitForSeconds(3);
-            Debug.Log("Back to Position");
+            UIHandler.CombatUI.Debug("Back to Position");
             yield return new WaitForSeconds(3);
-            Debug.Log("Switch opponent Turn and set defense");
+            UIHandler.CombatUI.Debug("End of Action");
+            
+            onActionDone?.Invoke();
             yield return new WaitForSeconds(3);
 
         }
