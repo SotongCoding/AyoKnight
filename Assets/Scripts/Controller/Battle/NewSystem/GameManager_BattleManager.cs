@@ -26,7 +26,10 @@ namespace FH_BattleModule
 
                 if (currentPickTime <= 0)
                 {
-                    PlayerControl_.Instance.Submit(0);
+                    beginPickArrowTime = false;
+                    comboHandler.SendCombo();
+                    Debug.Log("Time Ups");
+                    
                 }
             }
         }

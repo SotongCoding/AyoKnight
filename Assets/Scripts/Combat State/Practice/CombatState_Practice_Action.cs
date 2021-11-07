@@ -25,7 +25,7 @@ namespace FH_StateModule
             // Enemy
             GameManager_BattleManager.Instance.SetUnitPriority(false);
             StartCoroutine(SetAction()); // Call Arrow Control
-            UIHandler.CombatUI.Debug("Begin Current Enemy Action");
+            UIHandler.CombatUI.Debug("Begin Current Enemy Action and Animation");
             yield return new WaitUntil(GameManager_BattleManager.Instance.currentEnemyPlay.actionManager.IsCurrentActionDone);
 
             yield return new WaitForSeconds(1);
@@ -52,8 +52,8 @@ namespace FH_StateModule
             UIHandler.CombatUI.ShowActionUI(true);
             GameManager_BattleManager.Instance.BeginPickArrowTime();
             UIHandler.CombatUI.Debug("Player doing combo");
-            yield return new WaitForSeconds(5);
-            UIHandler.CombatUI.ShowActionUI(false);
+
+            yield return null;
         }
 
 

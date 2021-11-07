@@ -22,5 +22,5 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 317f3e2584df01944a9ba561575f65c6, type: 2}
     - {fileID: 11400000, guid: b41b6f89a9b5b964f97265ee37c08c6d, type: 2}
     minArrow: 3
-    maxArrow: 10
-    arrowVariation: 00000000010000000200000003000000
+    maxArrow: 6
+    arrowVariation: 0000000001000000

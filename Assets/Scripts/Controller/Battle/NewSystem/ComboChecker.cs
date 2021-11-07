@@ -29,7 +29,7 @@ namespace FH_BattleModule
 
         public void CheckArrow(int codeInput)
         {
-            Debug.Log("Check CountDown : "+ checkCountdown);
+            Debug.Log("Check CountDown : " + checkCountdown);
             if (codeInput.Equals(arrowCode[checkCountdown]))
             {
                 correctArrowAmount++;
@@ -46,11 +46,17 @@ namespace FH_BattleModule
             checkCountdown++;
             if (checkCountdown >= arrowCode.Count)
             {
-                OnSendedComboResult?.Invoke(new CheckComboResult(correctArrowAmount, missArrowAmount,
-                correctArrowAmount == arrowCode.Count && missArrowAmount == 0));
-
-                correctArrowAmount = missArrowAmount = 0;
+                SendCombo();
             }
+        }
+        public void SendCombo()
+        {
+            OnSendedComboResult?.Invoke(new CheckComboResult(
+            correctArrowAmount, 
+            missArrowAmount,
+            correctArrowAmount == arrowCode.Count && missArrowAmount == 0));
+
+            correctArrowAmount = missArrowAmount = 0;
         }
         public int[] SetCombo(int[] arrowVariation, int arrowAmount)
         {
