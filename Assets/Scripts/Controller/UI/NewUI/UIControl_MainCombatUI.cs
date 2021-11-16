@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 
 using SotongUtility;
-using System;
 
 namespace FH_UIControl
 {
@@ -13,6 +12,7 @@ namespace FH_UIControl
     {
         public List<CombatUI_Arrow> generatedArrow { private set; get; } = new List<CombatUI_Arrow>();
         [SerializeField] GameObject actionUI;
+        [SerializeField] GameObject playerControlUI;
         [SerializeField] TextMeshProUGUI debugText;
 
         public void Debug(string messege){
@@ -56,6 +56,9 @@ namespace FH_UIControl
         }
         public void ShowActionUI(bool showIt){
             actionUI.SetActive(showIt);
+        }
+        public void ShowPayerControlUI(bool showIt){
+            playerControlUI.SetActive(showIt);
         }
     }
 }

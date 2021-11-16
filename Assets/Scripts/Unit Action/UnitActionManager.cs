@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using FH_BattleModule;
 namespace FH_ActionModule
 {
     public class UnitActionManager : MonoBehaviour
@@ -18,14 +19,20 @@ namespace FH_ActionModule
                 avaiableAction.Add(item.actionCode, item);
             }
         }
+        public void ResetDoneAction()
+        {
+            doneActionRunning = false;
+        }
 
-        public void CallAction(string actionCode)
+        public void CallAction(UnitObject owner, string actionCode, CheckComboResult comboResult)
         {
             doneActionRunning = false;
 
             currentAction = actionCode;
-            if (avaiableAction.ContainsKey(actionCode)) StartCoroutine((avaiableAction[actionCode].ProccessAction(DoneAction)));
-            else Debug.Log("There are no such " + actionCode + " on this Object. Please Check Again");
+            if (avaiableAction.ContainsKey(actionCode))
+                StartCoroutine((avaiableAction[actionCode].ProccessAction(owner, DoneAction, comboResult)));
+            else
+                Debug.Log("There are no such " + actionCode + " on this Object. Please Check Again");
         }
         void DoneAction()
         {

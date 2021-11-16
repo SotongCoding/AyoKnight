@@ -9,11 +9,13 @@ namespace FH_ActionModule
 {
     public class BasicAttack : MonoBehaviour, IUnitAction
     {
-        public string actionCode => "basicAttack" ;
-        public virtual IEnumerator ProccessAction(System.Action onActionDone){
-           
-            yield return new WaitForSeconds(1);
-            onActionDone?.Invoke();
+        public string actionCode => "basicAttack";
+
+        public virtual UnitObject owner => null;
+
+        public virtual IEnumerator ProccessAction(UnitObject owner, Action onDoneAction, CheckComboResult comboResult)
+        {
+            yield break;
         }
     }
 }

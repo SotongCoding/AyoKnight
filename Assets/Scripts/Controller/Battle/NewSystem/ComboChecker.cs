@@ -12,12 +12,19 @@ namespace FH_BattleModule
         #region Checker Event
         public System.Action<int> onCorretInput;
         public System.Action<int> onMissInput;
+        public System.Action<int, bool> onCheckPerfectCombo;
         public System.Action<CheckComboResult> OnSendedComboResult;
 
-        public void ResetEvent(System.Action<int> onCorretInput = null, System.Action<int> onMissInput = null, System.Action<CheckComboResult> OnSendedComboResult = null)
+        public void ResetEvent(System.Action<int> onCorretInput = null,
+        System.Action<int> onMissInput = null,
+        System.Action<int, bool> onCheckPerfectCombo = null,
+        System.Action<CheckComboResult> OnSendedComboResult = null)
+
         {
             this.onCorretInput = onCorretInput;
             this.onMissInput = onMissInput;
+            this.onCheckPerfectCombo = onCheckPerfectCombo;
+
             this.OnSendedComboResult = OnSendedComboResult;
         }
         #endregion
@@ -25,38 +32,45 @@ namespace FH_BattleModule
         #region  Check Arrow Data
         public int correctArrowAmount { private set; get; }
         public int missArrowAmount { private set; get; }
+        public int perfectComboAmount { private set; get; }
         #endregion
 
         public void CheckArrow(int codeInput)
         {
-            Debug.Log("Check CountDown : " + checkCountdown);
             if (codeInput.Equals(arrowCode[checkCountdown]))
             {
                 correctArrowAmount++;
                 onCorretInput?.Invoke(codeInput);
-
             }
             else
             {
                 missArrowAmount++;
                 onMissInput?.Invoke(codeInput);
-
             }
 
             checkCountdown++;
-            if (checkCountdown >= arrowCode.Count)
+            if (checkCountdown == arrowCode.Count)
             {
-                SendCombo();
+                bool perfectComboCheck = correctArrowAmount % arrowCode.Count == 0;
+                if (perfectComboCheck)
+                {
+                    onCheckPerfectCombo?.Invoke(correctArrowAmount, perfectComboCheck);
+                    perfectComboAmount++;
+                }
+                else
+                {
+                    SendCombo();
+                }
             }
         }
         public void SendCombo()
         {
             OnSendedComboResult?.Invoke(new CheckComboResult(
-            correctArrowAmount, 
-            missArrowAmount,
-            correctArrowAmount == arrowCode.Count && missArrowAmount == 0));
+            correctArrowAmount,
+            missArrowAmount + (Mathf.Abs((perfectComboAmount + 1) * arrowCode.Count - (correctArrowAmount + missArrowAmount))),
+            perfectComboAmount));
 
-            correctArrowAmount = missArrowAmount = 0;
+            correctArrowAmount = missArrowAmount = perfectComboAmount = 0;
         }
         public int[] SetCombo(int[] arrowVariation, int arrowAmount)
         {
@@ -79,12 +93,12 @@ namespace FH_BattleModule
     {
         public int corretAmout { get; }
         public int missAmount { get; }
-        public bool isPerfect { get; }
-        public CheckComboResult(int corretAmout, int missAmount, bool isPerfect)
+        public int perfectAmount { get; }
+        public CheckComboResult(int corretAmout, int missAmount, int perfectAmount)
         {
             this.corretAmout = corretAmout;
             this.missAmount = missAmount;
-            this.isPerfect = isPerfect;
+            this.perfectAmount = perfectAmount;
         }
 
     }

@@ -11,6 +11,7 @@ namespace FH_StateModule
         public override IEnumerator BeginState()
         {
             UIHandler.CombatUI.Debug("Begin Of Action Phase of Current Player and Enemys");
+
             yield return new WaitForSeconds(3);
             StartCoroutine(RunningState());
         }
@@ -18,16 +19,19 @@ namespace FH_StateModule
         {
             // Player
             GameManager_BattleManager.Instance.SetUnitPriority(true);
+
             StartCoroutine(SetAction()); //Call Arrow Control
             UIHandler.CombatUI.Debug("Begin Current Player Action and Animation");
-            yield return new WaitUntil(GameManager_BattleManager.Instance.currentPlayerPlay.actionManager.IsCurrentActionDone);
+            yield return new WaitUntil(GameManager_BattleManager.Instance.currentPlayerPlay.ActionManager.IsCurrentActionDone);
+            GameManager_BattleManager.Instance.currentPlayerPlay.ActionManager.ResetDoneAction();
 
             // Enemy
             GameManager_BattleManager.Instance.SetUnitPriority(false);
+            
             StartCoroutine(SetAction()); // Call Arrow Control
             UIHandler.CombatUI.Debug("Begin Current Enemy Action and Animation");
-            yield return new WaitUntil(GameManager_BattleManager.Instance.currentEnemyPlay.actionManager.IsCurrentActionDone);
-
+            yield return new WaitUntil(GameManager_BattleManager.Instance.currentEnemyPlay.ActionManager.IsCurrentActionDone);
+            GameManager_BattleManager.Instance.currentEnemyPlay.ActionManager.ResetDoneAction();
             yield return new WaitForSeconds(1);
             UIHandler.CombatUI.Debug("Call End State");
             StartCoroutine(EndState());

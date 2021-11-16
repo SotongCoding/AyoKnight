@@ -19,30 +19,36 @@ public class LevelDatav2 : ScriptableObject
 public struct LevelWave
 {
     [Header("Enemys")]
-    public EnemyData[] enemys;
+    public WaveEnemyData[] enemys;
 
     [Header("Note On Battle")]
-    [SerializeField] int minArrow;
-    [SerializeField] int maxArrow;
-    public int noteAmount { get { return Random.Range(minArrow, maxArrow); } }
+    [SerializeField] int noteAmount;
+    public int NoteAmount { get => noteAmount; }
     [SerializeField] ArrowType[] arrowVariation;
-    public int[] NoteVariation {get{
-        int[] data = new int[arrowVariation.Length];
-        for (int i = 0; i < arrowVariation.Length; i++)
+    public int[] NoteVariation
+    {
+        get
         {
-            data[i] = (int) arrowVariation[i];
+            int[] data = new int[arrowVariation.Length];
+            for (int i = 0; i < arrowVariation.Length; i++)
+            {
+                data[i] = (int)arrowVariation[i];
+            }
+            return data;
         }
-        return data;
-    }
     }
 
     public LevelWave(LevelWave newData)
     {
         this.enemys = newData.enemys;
-        this.minArrow = newData.minArrow;
-        this.maxArrow = newData.maxArrow;
+        this.noteAmount = newData.noteAmount;
         this.arrowVariation = newData.arrowVariation;
     }
+}
+[System.Serializable]
+public struct WaveEnemyData{
+    public EnemyData data;
+    public int slotPosition;
 }
 public enum ArrowType
 {

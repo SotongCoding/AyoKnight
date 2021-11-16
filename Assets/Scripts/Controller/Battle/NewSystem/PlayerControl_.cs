@@ -20,6 +20,7 @@ namespace FH_PlayerControl
             GameManager_BattleManager.Instance.comboHandler.onCorretInput += CorrectArrowEvent;
             GameManager_BattleManager.Instance.comboHandler.onMissInput += MissArrowEvent;
             GameManager_BattleManager.Instance.comboHandler.OnSendedComboResult += SendedComboresultEvent;
+            GameManager_BattleManager.Instance.comboHandler.onCheckPerfectCombo += CheckComboPerfect;
 
         }
         public void PickArrow(int code)
@@ -29,19 +30,26 @@ namespace FH_PlayerControl
                 GameManager_BattleManager.Instance.comboHandler.CheckArrow(code);
             }
         }
-        public void Submit(float timeRemaining)
+        public void Submit(CheckComboResult comboResult)
         {
             if (GameManager_BattleManager.Instance.playerPriority)
             {
-                GameManager_BattleManager.Instance.currentPlayerPlay.actionManager.CallAction("basicAttack");
+                GameManager_BattleManager.Instance.currentPlayerPlay.ActionManager.
+                CallAction(GameManager_BattleManager.Instance.currentPlayerPlay, "basicAttack", comboResult);
             }
             else
             {
-                GameManager_BattleManager.Instance.currentEnemyPlay.actionManager.CallAction("basicAttack");
+                GameManager_BattleManager.Instance.currentEnemyPlay.ActionManager.
+                CallAction(GameManager_BattleManager.Instance.currentEnemyPlay, "basicAttack", comboResult);
             }
+            bool playerPriority = GameManager_BattleManager.Instance.playerPriority;
+
+            GameManager_BattleManager.Instance.currentPlayerPlay.unitUI.UpdatePriorityIcon(playerPriority);
+            GameManager_BattleManager.Instance.currentEnemyPlay.unitUI.UpdatePriorityIcon(!playerPriority);
 
             UIHandler.CombatUI.ShowActionUI(false);
             UIHandler.CombatUI.ResetArrow();
+            
             currentPickIndex = 0;
         }
 
@@ -58,6 +66,19 @@ namespace FH_PlayerControl
             currentPickIndex++;
         }
 
+        void CheckComboPerfect(int correctAmount, bool isPerfect)
+        {
+            if (isPerfect)
+            {
+                UIHandler.CombatUI.ResetArrow();
+                GameManager_BattleManager.Instance.SetCombo();
+                currentPickIndex = 0;
+            }
+            else
+            {
+                GameManager_BattleManager.Instance.comboHandler.SendCombo();
+            }
+        }
         void SendedComboresultEvent(CheckComboResult result)
         {
             GameManager_BattleManager.Instance.EndPickArrowTime();
@@ -66,9 +87,9 @@ namespace FH_PlayerControl
 
         IEnumerator SendComboEvent(CheckComboResult result)
         {
-            UIHandler.CombatUI.Debug("You gain : Correct " + result.corretAmout + " | miss : " + result.missAmount + "| this is Perfect Combo? : " + result.isPerfect);
+            UIHandler.CombatUI.Debug("You gain : Correct " + result.corretAmout + " | miss : " + result.missAmount + "| Perfect Combo : " + result.perfectAmount);
             yield return new WaitForSeconds(2f);
-            Submit(GameManager_BattleManager.Instance.remainingTime);
+            Submit(result);
         }
     }
 }

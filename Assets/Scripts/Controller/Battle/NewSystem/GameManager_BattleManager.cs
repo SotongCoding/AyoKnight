@@ -22,20 +22,22 @@ namespace FH_BattleModule
             if (beginPickArrowTime)
             {
                 currentPickTime -= Time.deltaTime;
-                combatUI.SetTimerAmount(currentPickTime, pickArrowTime);
+                UIHandler.CombatUI.SetTimerAmount(currentPickTime, pickArrowTime);
 
                 if (currentPickTime <= 0)
                 {
                     beginPickArrowTime = false;
                     comboHandler.SendCombo();
+                    UIHandler.CombatUI.ShowPayerControlUI(false);
                     Debug.Log("Time Ups");
-                    
+
                 }
             }
         }
 
         #region Testing
         public LevelDatav2 levelData;
+        public List<PlayerData> playerDatas;
         #endregion
 
         #region  Wave Handler
@@ -46,16 +48,8 @@ namespace FH_BattleModule
 
         #region Object Loader
         [Header("Loader Enemy")]
-        int currentEnemyIndex = 0;
         [SerializeField] List<EnemyObject> enemyPlaces;
-
-        int currentPlayerIndex = 0;
         [SerializeField] List<PlayerObject> playerPlaces;
-        #endregion
-
-        #region UI Handler
-        [Space]
-        [SerializeField] FH_UIControl.UIControl_MainCombatUI combatUI;
         #endregion
 
         #region  Combo Handler
@@ -83,15 +77,14 @@ namespace FH_BattleModule
         {
             comboHandler = new ComboChecker();
             this.waves = waves;
+            SetPlayer();
             SetWaves(0);
-
         }
+
         #region Waves
         public void SetWaves(int currentWaveNumber)
         {
             currentWave = new LevelWave(waves[currentWaveNumber]);
-            currentEnemyIndex = 0;
-
             SetEnemy();
         }
         #endregion
@@ -99,80 +92,38 @@ namespace FH_BattleModule
         #region Unit Object
         public void SetEnemy()
         {
-            int aliveEnemy = 0;
-            List<EnemyObject> avaiablePlace = new List<EnemyObject>();
-            List<int> placedIndex = new List<int>();
-
-            foreach (var enemy in enemyPlaces)
+            foreach (var enemy in currentWave.enemys)
             {
-                if (currentEnemyIndex > currentWave.enemys.Length) break;
-                if (enemy.Initialized) aliveEnemy++;
-                else
+                int slotCheck = 0;
+                while (enemyPlaces[enemy.slotPosition + slotCheck].Initialized)
                 {
-                    avaiablePlace.Add(enemy);
+                    slotCheck++;
                 }
 
-            }
-            for (int i = 0; i < avaiablePlace.Count; i++)
-            {
-                placedIndex.Add(i);
+                enemyPlaces[enemy.slotPosition + slotCheck].Initial(enemy.data);
             }
 
-
-            for (int i = 0; i < enemyPlaces.Count - aliveEnemy; i++)
+            foreach (var item in enemyPlaces)
             {
-                //Random
-                // int randomPlace = Random.Range(0, placedIndex.Count);
-                // avaiablePlace[placedIndex[randomPlace]].Initial(currentWave.enemys[currentEnemyIndex]);
-                // placedIndex.RemoveAt(randomPlace);
-
-                //OnOrder
-                avaiablePlace[i].Initial(currentWave.enemys[currentEnemyIndex]);
-                //placedIndex.RemoveAt(i);
-
-                currentEnemyIndex++;
-
-                //PoolObjectSystem.Instance.GetObject(PoolObject.PoolTag.Battle_Enemy).Intial(item);
-
+                item.gameObject.SetActive(item.Initialized);
             }
         }
         public void SetPlayer()
         {
-            int alivePlayer = 0;
-            List<PlayerObject> avaiablePlace = new List<PlayerObject>();
-            List<int> placedIndex = new List<int>();
-
-            foreach (var player in playerPlaces)
+            foreach (var player in playerDatas)
             {
-                if (currentEnemyIndex > currentWave.enemys.Length) break;
-                if (player.Initialized) alivePlayer++;
-                else
+                int slotCheck = 0;
+                while (playerPlaces[player.slotPosition + slotCheck].Initialized)
                 {
-                    avaiablePlace.Add(player);
+                    slotCheck++;
                 }
 
-            }
-            for (int i = 0; i < avaiablePlace.Count; i++)
-            {
-                placedIndex.Add(i);
+                playerPlaces[player.slotPosition + slotCheck].Initial(player);
             }
 
-
-            for (int i = 0; i < enemyPlaces.Count - alivePlayer; i++)
+            foreach (var item in playerPlaces)
             {
-                //Random
-                // int randomPlace = Random.Range(0, placedIndex.Count);
-                // avaiablePlace[placedIndex[randomPlace]].Initial(currentWave.enemys[currentEnemyIndex]);
-                // placedIndex.RemoveAt(randomPlace);
-
-                //OnOrder
-                avaiablePlace[i].Initial(currentWave.enemys[currentPlayerIndex]);
-                //placedIndex.RemoveAt(i);
-
-                currentPlayerIndex++;
-
-                //PoolObjectSystem.Instance.GetObject(PoolObject.PoolTag.Battle_Enemy).Intial(item);
-
+                item.gameObject.SetActive(item.Initialized);
             }
         }
 
@@ -181,15 +132,16 @@ namespace FH_BattleModule
         #region Combo
         public void SetCombo()
         {
-            combatUI.SetArrow(comboHandler.SetCombo(currentWave.NoteVariation, currentWave.noteAmount));
+            UIHandler.CombatUI.ShowPayerControlUI(true);
+            UIHandler.CombatUI.SetArrow(comboHandler.SetCombo(currentWave.NoteVariation, currentWave.NoteAmount));
         }
         #endregion
 
         #region Timer
         public void SetPickArrowTime()
         {
-            pickArrowTime = currentPickTime = (currentWave.noteAmount * 2f) + 2;
-            combatUI.SetTimerAmount(currentPickTime, pickArrowTime);
+            pickArrowTime = currentPickTime = (currentWave.NoteAmount * 2f);
+            UIHandler.CombatUI.SetTimerAmount(currentPickTime, pickArrowTime);
         }
         public void BeginPickArrowTime()
         {
@@ -203,44 +155,61 @@ namespace FH_BattleModule
         #endregion
 
         #region  Unit Action
-        public void NextSwitchUnit()
+        public bool NextSwitchUnit()
         {
-            SetNextPlayer();
-            SetNextEnemy();
+            bool setPlayer = false, setEnemy = false;
+            
+            currentEnemyPlay?.unitUI.TurnPriorityUI(false);
+            currentPlayerPlay?.unitUI.TurnPriorityUI(false);
+
+            setPlayer = SetNextPlayer();
+            setEnemy = SetNextEnemy();
+
+            return setPlayer && setEnemy;
         }
         public void SetUnitPriority(bool isPlayer)
         {
+
             playerPriority = isPlayer;
+
+            currentPlayerPlay.unitUI.UpdatePriorityIcon(isPlayer);
+            currentEnemyPlay.unitUI.UpdatePriorityIcon(!isPlayer);
         }
 
-        void SetNextPlayer()
+        bool SetNextPlayer()
         {
-
+            bool doneSet = false;
             actionPlayerIndex++;
             actionPlayerIndex = actionPlayerIndex >= playerPlaces.Count ? 0 : actionPlayerIndex;
 
-            while (playerPlaces[actionPlayerIndex].combatData.isDead)
+            while (playerPlaces[actionPlayerIndex].isDead || !playerPlaces[actionPlayerIndex].Initialized)
             {
                 actionPlayerIndex++;
                 actionPlayerIndex = actionPlayerIndex >= playerPlaces.Count ? 0 : actionPlayerIndex;
             }
-
+            doneSet = true;
             currentPlayerPlay = playerPlaces[actionPlayerIndex];
-            UIHandler.CombatUI.Debug("Current PLAYER unit Play : " + currentPlayerPlay.name);
+            Debug.Log("Current PLAYER unit Play : " + currentPlayerPlay.name);
+
+            return doneSet;
         }
-        void SetNextEnemy()
+        bool SetNextEnemy()
         {
+            bool doneSet = false;
             actionEnemyIndex++;
             actionEnemyIndex = actionEnemyIndex >= enemyPlaces.Count ? 0 : actionEnemyIndex;
 
-            while (enemyPlaces[actionEnemyIndex].combatData.isDead)
+            while (enemyPlaces[actionEnemyIndex].isDead || !enemyPlaces[actionEnemyIndex].Initialized)
             {
                 actionEnemyIndex++;
                 actionEnemyIndex = actionEnemyIndex >= enemyPlaces.Count ? 0 : actionEnemyIndex;
 
             }
+            doneSet = true;
             currentEnemyPlay = enemyPlaces[actionEnemyIndex];
-            UIHandler.CombatUI.Debug("Current ENEMY unit Play : " + currentEnemyPlay.name);
+            Debug.Log("Current ENEMY unit Play : " + currentEnemyPlay.name);
+
+            return doneSet;
         }
 
         #endregion

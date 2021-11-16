@@ -10,10 +10,10 @@ namespace FH_StateModule
     {
         public override IEnumerator BeginState()
         {
-            UIHandler.CombatUI.Debug("Call Combat Mnager for Set Enemy and Player");
-            GameManager_BattleManager.Instance.NextSwitchUnit();
+            UIHandler.CombatUI.Debug("Call Combat Manager for Set Enemy and Player");
+
+            yield return new WaitUntil(GameManager_BattleManager.Instance.NextSwitchUnit);
             GameManager_BattleManager.Instance.SetUnitPriority(true);
-            yield return new WaitForSeconds(1);
             UIHandler.CombatUI.Debug("Call Running State");
             StartCoroutine(RunningState());
         }
